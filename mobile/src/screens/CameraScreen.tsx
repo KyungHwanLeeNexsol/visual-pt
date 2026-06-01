@@ -1,4 +1,4 @@
-// SPEC-UI-001: 실시간 자세 추정 메인 화면 (M1~M5 통합)
+// SPEC-UI-001 / SPEC-UI-002: 실시간 자세 추정 메인 화면 (M1~M5 통합 + 실제 카메라 연결)
 
 import React, { useEffect, useState, useCallback } from 'react';
 import {
@@ -8,11 +8,15 @@ import {
   Dimensions,
   StatusBar,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
+import {
+  Camera,
+  useCameraDevice,
+  useFrameProcessor,
+} from 'react-native-vision-camera';
 
 import { useCamera } from '../hooks/useCamera';
-import { usePoseDetection } from '../hooks/usePoseDetection';
+import { usePoseDetection, createPoseCallback } from '../hooks/usePoseDetection';
 import { useJointAngles } from '../hooks/useJointAngles';
 import { useFeedback } from '../hooks/useFeedback';
 import { useWorkoutStore } from '../store/workoutStore';
@@ -24,41 +28,65 @@ import { CameraGuideOverlay, type AngleQuality } from '../components/CameraGuide
 import { JointAngleDisplay } from '../components/JointAngleDisplay';
 
 import { VISIBILITY_THRESHOLD } from '../config/pose.config';
+import type { CameraScreenProps } from '../navigation/types';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-// AC-5: 피드백 표시 지속 시간 (ms)
-const FEEDBACK_DISPLAY_DURATION_MS = 3000;
-
 // @MX:ANCHOR: 실시간 자세 추정 파이프라인의 최상위 통합 컴포넌트
-// @MX:REASON: M1~M5 전체 파이프라인이 이 화면에서 결합됨 (SPEC-UI-001)
-// @MX:SPEC: SPEC-UI-001
-export function CameraScreen(): React.JSX.Element {
+// @MX:REASON: M1~M5 전체 파이프라인이 이 화면에서 결합됨 (SPEC-UI-001, SPEC-UI-002)
+// @MX:SPEC: SPEC-UI-001, SPEC-UI-002
+export function CameraScreen({ route, navigation }: CameraScreenProps): React.JSX.Element {
   const { hasPermission, requestPermission } = useCamera();
-  const { latestPose, isProcessing, fps, startDetection, stopDetection } = usePoseDetection();
+  const device = useCameraDevice('back');
+  const { latestPose, isProcessing, fps, startDetection, stopDetection, onPoseDetected } = usePoseDetection();
   const { currentMessage, triggerFeedback } = useFeedback();
-  const { selectedExercise, isSessionActive, startSession, endSession } = useWorkoutStore();
+  const { isSessionActive, startSession, endSession, selectExercise } = useWorkoutStore();
   const { setErrors, addMessage, setActive } = useFeedbackStore();
 
   // M5: 카메라 배치 가이드 표시 상태
-  const [showGuide, setShowGuide] = useState(true);
+  const [showGuide, setShowGuide] = useState(false);
   const [angleQuality, setAngleQuality] = useState<AngleQuality>('good');
   const [showDebugAngles, setShowDebugAngles] = useState(false);
 
+  const exercise = route.params?.exercise ?? null;
+
   const { angles, errors } = useJointAngles(
     latestPose?.landmarks ?? null,
-    selectedExercise,
+    exercise,
   );
+
+  // SPEC-UI-002 N4: 마운트 시 자동 세션 시작, 언마운트 시 정리
+  useEffect(() => {
+    if (!exercise) {
+      navigation.goBack();
+      return;
+    }
+
+    selectExercise(exercise);
+    startSession();
+    setActive(true);
+    startDetection(exercise);
+    setShowGuide(true); // AC-8: 진입 시 가이드 표시
+
+    return () => {
+      // 언마운트 시 세션·추론 정리
+      endSession();
+      setActive(false);
+      stopDetection();
+    };
+    // 마운트 시 1회만 실행 — deps 의도적으로 비움
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // M3: 폼 오류 감지 시 피드백 트리거
   useEffect(() => {
-    if (errors.length > 0 && selectedExercise) {
-      triggerFeedback(errors, selectedExercise);
+    if (errors.length > 0 && exercise) {
+      triggerFeedback(errors, exercise);
       setErrors(errors);
     } else {
       setErrors([]);
     }
-  }, [errors, selectedExercise, triggerFeedback, setErrors]);
+  }, [errors, exercise, triggerFeedback, setErrors]);
 
   // M3: 피드백 메시지를 feedbackStore에 저장
   useEffect(() => {
@@ -84,34 +112,44 @@ export function CameraScreen(): React.JSX.Element {
     }
   }, [latestPose]);
 
-  // 세션 시작
-  const handleStartSession = useCallback(() => {
-    if (!selectedExercise) {
-      Alert.alert('운동 선택', '운동을 먼저 선택해주세요.');
-      return;
-    }
-    startSession();
-    setActive(true);
-    startDetection(selectedExercise);
-    setShowGuide(false);
-  }, [selectedExercise, startSession, setActive, startDetection]);
-
   // 세션 종료
   const handleEndSession = useCallback(() => {
     endSession();
     setActive(false);
     stopDetection();
-    setShowGuide(false);
-  }, [endSession, setActive, stopDetection]);
+    navigation.goBack();
+  }, [endSession, setActive, stopDetection, navigation]);
 
-  // 권한 미허용 상태
-  if (!hasPermission) {
+  // N5: 프레임 프로세서 — 카메라 프레임을 포즈 추론 파이프라인으로 전달
+  // @MX:WARN: useFrameProcessor는 워크릿에서 실행됨 — JS 함수는 runOnJS로만 호출 가능
+  // @MX:REASON: react-native-worklets-core 의존, 실기기에서만 동작
+  const poseCallback = createPoseCallback(onPoseDetected);
+  const frameProcessor = useFrameProcessor((frame) => {
+    'worklet';
+    // react-native-mediapipe-posedetection 네이티브 플러그인이 여기서 호출됨
+    // 실기기에서 포즈 랜드마크를 추출하고 JS 스레드로 결과를 전달
+    // TODO: 실기기 PoC 단계에서 실제 플러그인 API로 교체
+    const mockLandmarks: { x: number; y: number; z: number; visibility: number }[] = [];
+    void frame;
+    void mockLandmarks;
+    // 실제 구현 예시:
+    // const result = detectPose(frame); // 네이티브 플러그인
+    // poseCallback(result.landmarks, frame.timestamp);
+    void poseCallback;
+  }, [poseCallback]);
+
+  // 권한 미허용 또는 카메라 디바이스 없음 — graceful fallback (N5 Unwanted)
+  if (!hasPermission || !device) {
     return (
       <View style={styles.permissionContainer} testID="permission-screen">
-        <Text style={styles.permissionText}>카메라 접근 권한이 필요합니다</Text>
-        <TouchableOpacity style={styles.permissionButton} onPress={requestPermission}>
-          <Text style={styles.permissionButtonText}>권한 허용</Text>
-        </TouchableOpacity>
+        <Text style={styles.permissionText}>
+          {!hasPermission ? '카메라 접근 권한이 필요합니다' : '카메라를 찾을 수 없습니다'}
+        </Text>
+        {!hasPermission && (
+          <TouchableOpacity style={styles.permissionButton} onPress={requestPermission}>
+            <Text style={styles.permissionButtonText}>권한 허용</Text>
+          </TouchableOpacity>
+        )}
         <Text style={styles.disclaimerText}>
           {/* 법적 면책: 2D 카메라 한계 안내 */}
           Visual PT는 2D 카메라 기반 분석으로 정확도에 한계가 있습니다.{'\n'}
@@ -125,12 +163,21 @@ export function CameraScreen(): React.JSX.Element {
     <View style={styles.container} testID="camera-screen">
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 
-      {/* 카메라 뷰 영역 (Phase E 실기기 통합 시 Camera 컴포넌트로 교체) */}
-      <View style={styles.cameraPlaceholder} testID="camera-view">
-        <Text style={styles.cameraPlaceholderText}>
-          {isProcessing ? `처리 중 (${fps} FPS)` : '카메라 대기 중'}
-        </Text>
-      </View>
+      {/* N5: 실제 카메라 피드 (react-native-vision-camera) */}
+      <Camera
+        style={StyleSheet.absoluteFillObject}
+        device={device}
+        isActive={isSessionActive}
+        frameProcessor={frameProcessor}
+        testID="camera-view"
+      />
+
+      {/* FPS 디버그 표시 */}
+      {isProcessing && (
+        <View style={styles.fpsOverlay} pointerEvents="none">
+          <Text style={styles.fpsText}>{fps} FPS</Text>
+        </View>
+      )}
 
       {/* M4: 스켈레톤 오버레이 */}
       <View style={StyleSheet.absoluteFillObject} pointerEvents="none">
@@ -157,21 +204,9 @@ export function CameraScreen(): React.JSX.Element {
         </View>
       )}
 
-      {/* 운동 선택 및 세션 컨트롤 */}
+      {/* 세션 종료 버튼 (세션 활성 시에만 표시) */}
       <View style={styles.controlsContainer}>
-        {!isSessionActive ? (
-          <TouchableOpacity
-            style={styles.startButton}
-            onPress={handleStartSession}
-            testID="start-session-button"
-          >
-            <Text style={styles.startButtonText}>
-              {selectedExercise
-                ? `${selectedExercise === 'squat' ? '스쿼트' : '데드리프트'} 시작`
-                : '운동 선택 후 시작'}
-            </Text>
-          </TouchableOpacity>
-        ) : (
+        {isSessionActive && (
           <TouchableOpacity
             style={styles.stopButton}
             onPress={handleEndSession}
@@ -243,19 +278,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
   },
-  startButton: {
-    backgroundColor: '#1976D2',
-    paddingHorizontal: 40,
-    paddingVertical: 16,
-    borderRadius: 32,
-    minWidth: 200,
-    alignItems: 'center',
-  },
-  startButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '700',
-  },
   stopButton: {
     backgroundColor: '#D32F2F',
     paddingHorizontal: 40,
@@ -278,6 +300,20 @@ const styles = StyleSheet.create({
   debugToggleText: {
     color: '#FFFFFF',
     fontSize: 12,
+  },
+  fpsOverlay: {
+    position: 'absolute',
+    top: 50,
+    right: 16,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  fpsText: {
+    color: '#00FF00',
+    fontSize: 12,
+    fontFamily: 'monospace',
   },
   permissionContainer: {
     flex: 1,
@@ -321,6 +357,3 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
 });
-
-// 미사용 변수 제거 (Phase E 통합 후 실제 사용)
-void FEEDBACK_DISPLAY_DURATION_MS;
