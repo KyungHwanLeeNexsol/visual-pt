@@ -21,16 +21,23 @@ visual-pt/
 │   └── config/                     # MoAI workflow config
 │
 ├── mobile/                         # React Native mobile app
+│   ├── App.tsx                     # NEW (SPEC-UI-002 N1) — NavigationContainer + SafeAreaProvider
+│   ├── babel.config.js             # NEW (worklets-core + reanimated babel plugins)
+│   ├── app.json                    # NEW (Expo config, camera permissions, vision-camera plugin)
+│   ├── eas.json                    # NEW (EAS build profiles)
 │   ├── app/                        # Application entry point
-│   │   ├── App.tsx                 # Root app component
 │   │   ├── index.js                # App entry point
-│   │   └── app.json                # Expo/RN configuration
+│   │   └── app.json                # Expo/RN configuration (deprecated, moved to root)
 │   │
 │   ├── src/                        # Source code (main directory)
+│   │   ├── navigation/             # NEW (SPEC-UI-002 N1) — 내비게이션 구조
+│   │   │   ├── types.ts            — RootStackParamList 타입 안전
+│   │   │   └── RootNavigator.tsx   — 네이티브 스택 네비게이터
+│   │   │
 │   │   ├── screens/                # Screen components (feature-based)
-│   │   │   ├── HomeScreen.tsx
-│   │   │   ├── WorkoutSelectionScreen.tsx
-│   │   │   ├── CameraScreen.tsx    # Real-time pose detection
+│   │   │   ├── HomeScreen.tsx      # NEW (SPEC-UI-002 N2) — 앱 홈 화면
+│   │   │   ├── WorkoutSelectionScreen.tsx  # NEW (SPEC-UI-002 N3) — 운동 선택
+│   │   │   ├── CameraScreen.tsx    # Modified (SPEC-UI-002 N4+N5) — 실제 카메라 연결
 │   │   │   ├── FeedbackScreen.tsx
 │   │   │   ├── SessionAnalysisScreen.tsx
 │   │   │   ├── KnowledgeBaseScreen.tsx
@@ -88,6 +95,7 @@ visual-pt/
 │   │   ├── config/                 # Configuration files
 │   │   │   ├── api.config.ts       # Backend API endpoints
 │   │   │   ├── pose.config.ts      # MediaPipe thresholds
+│   │   │   ├── exercise.catalog.ts # NEW (SPEC-UI-002) — 운동 메타데이터
 │   │   │   ├── feedback.config.ts  # Feedback rules
 │   │   │   └── theme.ts            # UI theme (colors, sizes)
 │   │   │
@@ -98,6 +106,11 @@ visual-pt/
 │   │   │   └── videos/
 │   │   │
 │   │   └── __tests__/              # Unit/integration tests
+│   │       ├── navigation/         # NEW (SPEC-UI-002) — 네비게이션 테스트
+│   │       │   └── RootNavigator.test.tsx
+│   │       ├── screens/            # 화면 테스트
+│   │       │   ├── HomeScreen.test.tsx        # NEW (SPEC-UI-002 N2)
+│   │       │   └── WorkoutSelectionScreen.test.tsx # NEW (SPEC-UI-002 N3)
 │   │       ├── services/
 │   │       ├── components/
 │   │       ├── hooks/
@@ -105,10 +118,8 @@ visual-pt/
 │   │
 │   ├── package.json
 │   ├── tsconfig.json
-│   ├── babel.config.js             # Babel configuration
-│   └── app.json                    # Expo app configuration
 │
-│   > ✅ 구현 완료 (2026-06-01): mobile/src/ 하위 37개 파일 구현됨 (SPEC-UI-001)
+│   > ✅ 구현 완료 (2026-06-01): SPEC-UI-002 완료 (App 진입점 + 내비게이션 쉘 + 실제 카메라 연결)
 │
 ├── backend/                        # Backend API service (Node.js/Express or Python/FastAPI)
 │   ├── src/                        # Source code

@@ -29,6 +29,14 @@ Visual PT uses a modern, production-grade technology stack designed for real-tim
 - `react-native-gesture-handler` (2.x) - Gesture recognition
 - `react-native-reanimated` (3.x) - Animation library
 
+#### Navigation (신규 — SPEC-UI-002)
+- `@react-navigation/native` (6.1.18, Expo 51 호환) — NavigationContainer, 네비게이션 훅
+- `@react-navigation/native-stack` (6.11.0) — 네이티브 스택 네비게이터
+- `react-native-screens` (3.31.1, Expo SDK 51 resolved) — 네이티브 스크린 최적화
+- `react-native-safe-area-context` (4.10.5, Expo SDK 51 resolved) — SafeArea 처리
+
+⚠️ **주의:** react-navigation 8.x는 Expo 51과 호환되지 않음 — 반드시 6.x 사용
+
 #### Camera and Media
 - `react-native-vision-camera` (4.x) - Camera access, frame processor API (replaces expo-camera for pose pipeline)
 - `expo-media-library` (16.x) - Photo/video library access
