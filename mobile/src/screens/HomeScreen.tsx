@@ -10,19 +10,26 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { HomeScreenProps } from '../navigation/types';
 import { EXERCISE_CATALOG } from '../config/exercise.catalog';
+import { Colors } from '../theme/colors';
 
 // @MX:NOTE: 2D 카메라 한계 및 의료기기 아님 고지는 법적 요구사항 — 절대 제거 금지
 export function HomeScreen({ navigation }: HomeScreenProps): React.JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title} testID="home-title">Visual PT</Text>
+        {/* 앱 브랜드 타이틀 — 네온 액센트 포인트 */}
+        <View style={styles.brandRow}>
+          <Text style={styles.title} testID="home-title">Visual PT</Text>
+          <Text style={styles.accentDot}>.</Text>
+        </View>
         <Text style={styles.tagline}>집에서도 전문가 수준의 운동 폼 교정을</Text>
 
-        {/* MVP 운동 목록 */}
-        <View style={styles.exerciseList} testID="exercise-list">
+        {/* MVP 운동 배지 목록 */}
+        <View style={styles.badgeRow} testID="exercise-list">
           {EXERCISE_CATALOG.map((ex) => (
-            <Text key={ex.id} style={styles.exerciseItem}>{ex.name}</Text>
+            <View key={ex.id} style={styles.badge}>
+              <Text style={styles.badgeText}>{ex.name}</Text>
+            </View>
           ))}
         </View>
 
@@ -45,23 +52,74 @@ export function HomeScreen({ navigation }: HomeScreenProps): React.JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#121212' },
-  content: { padding: 24, gap: 20 },
-  title: { fontSize: 32, fontWeight: '800', color: '#FFFFFF' },
-  tagline: { fontSize: 16, color: '#BDBDBD', lineHeight: 24 },
-  exerciseList: { gap: 8 },
-  exerciseItem: { fontSize: 16, color: '#9E9E9E' },
-  startButton: {
-    backgroundColor: '#1976D2',
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
+  container: { flex: 1, backgroundColor: Colors.bgPrimary },
+  content: { padding: 24, paddingTop: 40, gap: 24 },
+
+  // 브랜드 타이틀 행
+  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  // 앱 이름 스타일 — 크고 임팩트 있게
+  title: {
+    fontSize: 38,
+    fontWeight: '900',
+    color: Colors.textPrimary,
+    letterSpacing: -1,
   },
-  startButtonText: { color: '#FFFFFF', fontSize: 18, fontWeight: '700' },
+  accentDot: {
+    fontSize: 38,
+    fontWeight: '900',
+    color: Colors.accent,
+  },
+  tagline: {
+    fontSize: 15,
+    color: Colors.textSecondary,
+    lineHeight: 22,
+    marginTop: -8,
+  },
+
+  // 운동 미리보기 배지 행
+  badgeRow: {
+    flexDirection: 'row',
+    gap: 8,
+    flexWrap: 'wrap',
+  },
+  badge: {
+    backgroundColor: Colors.bgCardElevated,
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  badgeText: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '500',
+  },
+
+  // CTA 버튼 — 풀 width 네온 그린
+  startButton: {
+    backgroundColor: Colors.accent,
+    padding: 18,
+    borderRadius: 16,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  startButtonText: {
+    color: '#000000',
+    fontSize: 17,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+
   disclaimer: {
     fontSize: 11,
-    color: '#616161',
-    lineHeight: 18,
+    color: Colors.textTertiary,
+    lineHeight: 17,
     textAlign: 'center',
+    marginTop: 4,
   },
+
+  // 아래 사용하지 않는 스타일 (기존 코드 호환)
+  exerciseList: { gap: 8 },
+  exerciseItem: { fontSize: 16, color: Colors.textSecondary },
 });

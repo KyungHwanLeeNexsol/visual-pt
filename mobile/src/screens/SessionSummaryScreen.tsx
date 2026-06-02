@@ -15,6 +15,7 @@ import type { FormErrorType } from '../types/feedback.types';
 import { AICoachingService } from '../services/AICoachingService';
 import type { CoachingResult } from '../services/AICoachingService';
 import { API_BASE_URL } from '../config/api.config';
+import { Colors } from '../theme/colors';
 
 // AI 코칭 서비스 인스턴스 생성
 const aiCoachingService = new AICoachingService(API_BASE_URL);
@@ -183,157 +184,190 @@ export function SessionSummaryScreen({ route, navigation }: SessionSummaryScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: Colors.bgPrimary,
   },
   content: {
-    padding: 24,
+    padding: 20,
     paddingBottom: 48,
   },
+
+  // 헤더 — 운동 완료 강조
   header: {
     alignItems: 'center',
-    marginBottom: 32,
-    marginTop: 48,
+    marginBottom: 28,
+    marginTop: 40,
+    gap: 4,
   },
   headerTitle: {
-    color: '#9E9E9E',
-    fontSize: 14,
-    letterSpacing: 2,
+    color: Colors.textTertiary,
+    fontSize: 12,
+    letterSpacing: 3,
     textTransform: 'uppercase',
-    marginBottom: 8,
+    fontWeight: '600',
   },
   exerciseName: {
-    color: '#FFFFFF',
-    fontSize: 28,
-    fontWeight: '700',
+    color: Colors.textPrimary,
+    fontSize: 30,
+    fontWeight: '900',
+    letterSpacing: -0.5,
   },
+
+  // 핵심 통계 카드 — 큰 숫자
   statsRow: {
     flexDirection: 'row',
-    gap: 16,
-    marginBottom: 24,
+    gap: 12,
+    marginBottom: 16,
   },
   statCard: {
     flex: 1,
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
+    backgroundColor: Colors.bgCard,
+    borderRadius: 18,
     padding: 20,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   statValue: {
-    color: '#FFFFFF',
-    fontSize: 36,
-    fontWeight: '700',
+    color: Colors.accent,
+    fontSize: 40,
+    fontWeight: '900',
     marginBottom: 4,
+    letterSpacing: -1,
   },
   statLabel: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 12,
+    fontWeight: '500',
   },
+
+  // 섹션 공통
   section: {
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
+    backgroundColor: Colors.bgCard,
+    borderRadius: 18,
     padding: 20,
-    marginBottom: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   sectionTitle: {
-    color: '#9E9E9E',
-    fontSize: 12,
-    letterSpacing: 1,
+    color: Colors.textTertiary,
+    fontSize: 11,
+    letterSpacing: 2,
     textTransform: 'uppercase',
-    marginBottom: 12,
+    marginBottom: 14,
+    fontWeight: '600',
   },
+
+  // 각도 행
   angleRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 8,
+    paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: Colors.border,
   },
   angleLabel: {
-    color: '#FFFFFF',
-    fontSize: 16,
+    color: Colors.textSecondary,
+    fontSize: 15,
   },
   angleValue: {
-    color: '#4FC3F7',
-    fontSize: 16,
-    fontWeight: '600',
+    color: Colors.info,
+    fontSize: 15,
+    fontWeight: '700',
   },
+
+  // 오류 행
   errorRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 8,
+    alignItems: 'center',
+    paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: Colors.border,
   },
   errorLabel: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14,
     flex: 1,
   },
   errorCount: {
-    color: '#EF5350',
+    color: Colors.error,
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
+    backgroundColor: '#2A1010',
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: 20,
+    overflow: 'hidden',
   },
   noErrorText: {
-    color: '#66BB6A',
+    color: Colors.success,
     fontSize: 14,
     textAlign: 'center',
     paddingVertical: 8,
+    fontWeight: '600',
   },
+
+  // AI 코칭 섹션 — 그라디언트 느낌 테두리
   aiSection: {
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
+    backgroundColor: Colors.bgCard,
+    borderRadius: 18,
     padding: 20,
-    marginBottom: 32,
-    borderWidth: 1,
-    borderColor: '#2A2A2A',
-    borderStyle: 'dashed',
+    marginBottom: 28,
+    borderWidth: 1.5,
+    borderColor: Colors.accentSoft,
   },
   aiTitle: {
-    color: '#9E9E9E',
-    fontSize: 12,
-    letterSpacing: 1,
+    color: Colors.accentSoft,
+    fontSize: 11,
+    letterSpacing: 2,
     textTransform: 'uppercase',
     marginBottom: 12,
+    fontWeight: '700',
   },
   aiLoadingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
     justifyContent: 'center',
+    paddingVertical: 4,
   },
   aiPlaceholder: {
-    color: '#616161',
+    color: Colors.textTertiary,
     fontSize: 14,
     textAlign: 'center',
     fontStyle: 'italic',
   },
   aiMessage: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 15,
-    lineHeight: 22,
-    marginBottom: 8,
+    lineHeight: 24,
+    marginBottom: 10,
   },
   aiSourceLabel: {
     fontSize: 12,
+    fontWeight: '600',
   },
   aiSourceLabelAI: {
-    // Gemini AI 응답: 파란색
-    color: '#1976D2',
+    // Gemini AI 응답: 네온 그린 소프트
+    color: Colors.accentSoft,
   },
   aiSourceLabelFallback: {
-    // 규칙 기반 폴백: 회색
-    color: '#616161',
+    // 규칙 기반 폴백: 어두운 텍스트
+    color: Colors.textTertiary,
   },
+
+  // 돌아가기 버튼 — 네온 그린
   backButton: {
-    backgroundColor: '#1976D2',
-    borderRadius: 32,
-    paddingVertical: 16,
+    backgroundColor: Colors.accent,
+    borderRadius: 20,
+    paddingVertical: 18,
     alignItems: 'center',
   },
   backButtonText: {
-    color: '#FFFFFF',
+    color: '#000000',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '800',
+    letterSpacing: 0.3,
   },
 });

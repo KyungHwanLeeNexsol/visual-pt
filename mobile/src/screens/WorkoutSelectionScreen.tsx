@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { WorkoutSelectionScreenProps } from '../navigation/types';
 import { EXERCISE_CATALOG } from '../config/exercise.catalog';
 import { useWorkoutStore } from '../store/workoutStore';
+import { Colors } from '../theme/colors';
 
 export function WorkoutSelectionScreen({ navigation }: WorkoutSelectionScreenProps): React.JSX.Element {
   const { selectExercise } = useWorkoutStore();
@@ -50,33 +51,73 @@ export function WorkoutSelectionScreen({ navigation }: WorkoutSelectionScreenPro
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#121212' },
-  content: { padding: 24, gap: 16 },
-  header: { fontSize: 24, fontWeight: '700', color: '#FFFFFF', marginBottom: 8 },
-  card: {
-    backgroundColor: '#1E1E1E',
-    borderRadius: 16,
-    padding: 16,
-    flexDirection: 'column',
-    gap: 12,
+  container: { flex: 1, backgroundColor: Colors.bgPrimary },
+  content: { padding: 20, gap: 14, paddingTop: 32, paddingBottom: 32 },
+
+  header: {
+    fontSize: 26,
+    fontWeight: '800',
+    color: Colors.textPrimary,
+    marginBottom: 4,
+    letterSpacing: -0.5,
   },
+
+  // 운동 카드 — 왼쪽 액센트 보더 (토스 스타일)
+  card: {
+    backgroundColor: Colors.bgCard,
+    borderRadius: 20,
+    padding: 20,
+    flexDirection: 'column',
+    gap: 14,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    // 왼쪽 액센트 선
+    borderLeftWidth: 3,
+    borderLeftColor: Colors.accent,
+  },
+
+  // 운동 이미지 플레이스홀더 — 더 진하고 임팩트 있게
   imagePlaceholder: {
-    height: 120,
-    backgroundColor: '#2C2C2C',
-    borderRadius: 12,
+    height: 110,
+    backgroundColor: Colors.bgAccentDim,
+    borderRadius: 14,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.accentDim,
   },
-  imagePlaceholderText: { fontSize: 48 },
+  imagePlaceholderText: {
+    fontSize: 52,
+  },
+
   cardContent: { gap: 6 },
-  exerciseName: { fontSize: 20, fontWeight: '700', color: '#FFFFFF' },
-  exerciseDesc: { fontSize: 14, color: '#BDBDBD', lineHeight: 20 },
-  muscles: { fontSize: 12, color: '#757575' },
+  exerciseName: {
+    fontSize: 22,
+    fontWeight: '800',
+    color: Colors.textPrimary,
+    letterSpacing: -0.3,
+  },
+  exerciseDesc: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+    lineHeight: 19,
+  },
+  muscles: {
+    fontSize: 12,
+    color: Colors.accent,
+    fontWeight: '500',
+  },
+
+  // 시작 버튼 — 네온 그린
   selectButton: {
-    backgroundColor: '#1976D2',
-    padding: 12,
-    borderRadius: 8,
+    backgroundColor: Colors.accent,
+    padding: 14,
+    borderRadius: 12,
     alignItems: 'center',
   },
-  selectButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '600' },
+  selectButtonText: {
+    color: '#000000',
+    fontSize: 16,
+    fontWeight: '800',
+  },
 });
