@@ -19,18 +19,30 @@ app.use(
 
 app.use(express.json());
 
-// GEMINI_API_KEY 확인 — 미설정 시 경고 로그만 출력하고 앱은 기동
+// Gemini API 키 수집 — GEMINI_API_KEY_1/2/3 우선, 없으면 GEMINI_API_KEY 단일 키 사용
 let geminiService: GeminiService | null = null;
-const apiKey = process.env.GEMINI_API_KEY;
 
-if (!apiKey || apiKey === 'your-gemini-api-key-here') {
+const apiKeys = [
+  process.env.GEMINI_API_KEY_1,
+  process.env.GEMINI_API_KEY_2,
+  process.env.GEMINI_API_KEY_3,
+  process.env.GEMINI_API_KEY_4,
+].filter((k): k is string => Boolean(k) && k !== 'your-gemini-api-key-here');
+
+// 키 없으면 단일 키(GEMINI_API_KEY)로 폴백
+const fallbackKey = process.env.GEMINI_API_KEY;
+if (apiKeys.length === 0 && fallbackKey && fallbackKey !== 'your-gemini-api-key-here') {
+  apiKeys.push(fallbackKey);
+}
+
+if (apiKeys.length === 0) {
   console.warn(
-    '[경고] GEMINI_API_KEY가 설정되지 않았습니다. ' +
+    '[경고] Gemini API 키가 설정되지 않았습니다. ' +
     '/api/coaching 엔드포인트는 503을 반환합니다.'
   );
 } else {
-  geminiService = new GeminiService(apiKey);
-  console.log('[정보] Gemini API 서비스가 초기화되었습니다.');
+  geminiService = new GeminiService(apiKeys);
+  console.log(`[정보] Gemini API 서비스가 ${apiKeys.length}개 키로 초기화되었습니다.`);
 }
 
 // 코칭 라우터 마운트
