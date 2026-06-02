@@ -1,6 +1,6 @@
 ---
 id: SPEC-ENHANCE-001
-version: "1.1.0"
+version: "1.2.0"
 status: draft
 created: "2026-06-02"
 updated: "2026-06-02"
@@ -16,6 +16,7 @@ issue_number: 0
 |------|------|---------|-------|
 | 1.0.0 | 2026-06-02 | 초안 작성 (Feature 1~3 통합 SPEC) | Visual PT Team |
 | 1.1.0 | 2026-06-02 | REQ-E3 Gemini 통합을 클라이언트 직접 호출에서 백엔드 프록시(Express.js 서버) 방식으로 변경 | Visual PT Team |
+| 1.2.0 | 2026-06-02 | REQ-E3-002 updated: 4-key rotation implementation (`GEMINI_API_KEY_1`~`GEMINI_API_KEY_4`, 429 Rate Limit 자동 키 폴백) | Visual PT Team |
 
 ## 개요
 
@@ -174,9 +175,18 @@ issue_number: 0
 - **Priority:** High
 - **Dependencies:** REQ-E2-004, REQ-E3-002
 
-#### REQ-E3-002 — API 키 서버 측 보관 및 클라이언트 키 미보유
-- **EARS:** THE SYSTEM SHALL Gemini API 키를 백엔드 서버(`server/.env`)에만 보관하고, React Native 앱은 Gemini API 키를 저장하거나 직접 사용하지 않아야 한다.
-- **Acceptance Criteria:** `server/.env`(템플릿: `GEMINI_API_KEY=your-key-here`)에 키 항목이 존재하고, 서버가 해당 키로 Gemini를 호출한다. `mobile/.env`에는 `API_BASE_URL=http://localhost:3001`만 존재하며 Gemini 키가 없다. React Native 소스 어디에도 Gemini 키 리터럴이나 직접 호출이 존재하지 않는다. `.env` 파일들은 `.gitignore` 대상이거나 플레이스홀더만 포함한다.
+#### REQ-E3-002 — API 키 서버 측 다중 보관(키 로테이션) 및 클라이언트 키 미보유
+- **EARS:** THE SYSTEM SHALL Gemini API 키를 백엔드 서버(`server/.env`)에만 보관하고, 최대 4개의 키(`GEMINI_API_KEY_1`~`GEMINI_API_KEY_4`)를 등록할 수 있어야 하며, React Native 앱은 Gemini API 키를 저장하거나 직접 사용하지 않아야 한다.
+- **EARS:** WHERE 번호가 매겨진 키(`GEMINI_API_KEY_1`~`GEMINI_API_KEY_4`)가 하나도 존재하지 않는 경우 THE SYSTEM SHALL 단일 키 `GEMINI_API_KEY`를 폴백으로 사용해야 한다.
+- **EARS:** WHEN Gemini 호출이 429 Rate Limit 응답을 반환하면 THE SYSTEM SHALL 다음 사용 가능한 키로 자동 전환하여 재시도해야 한다.
+- **EARS:** IF 등록된 모든 키가 429 Rate Limit으로 소진되면 THEN THE SYSTEM SHALL 예외를 던지지 않고 오류 응답을 반환하여 클라이언트가 fallback 경로(REQ-E3-005)로 처리하도록 해야 한다.
+- **Acceptance Criteria:**
+  - `server/.env`(템플릿: `GEMINI_API_KEY_1=your-key-here` ... `GEMINI_API_KEY_4=your-key-here`)에 최대 4개의 키 항목을 등록할 수 있고, 서버가 등록된 키들로 Gemini를 호출한다.
+  - 번호가 매겨진 키가 하나도 없으면 서버는 단일 키 `GEMINI_API_KEY`를 사용한다(단일 키 폴백).
+  - Gemini 호출이 429 Rate Limit을 반환하면 다음 사용 가능한 키로 전환되어 재시도가 발생한다(429 → 키 로테이션 트리거를 테스트로 검증).
+  - 모든 키가 429로 소진되면 서버가 충돌 없이 오류 응답을 반환하고, 클라이언트는 fallback 요약을 표시한다.
+  - `mobile/.env`에는 `API_BASE_URL=http://localhost:3001`만 존재하며 Gemini 키가 없다. React Native 소스 어디에도 Gemini 키 리터럴이나 직접 호출이 존재하지 않는다.
+  - `.env` 파일들은 `.gitignore` 대상이거나 플레이스홀더만 포함한다.
 - **Priority:** High
 - **Dependencies:** 없음
 
