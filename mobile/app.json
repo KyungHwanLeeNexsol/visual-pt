@@ -30,7 +30,8 @@
       ]
     },
     "plugins": [
-      "react-native-vision-camera"
+      "react-native-vision-camera",
+      "react-native-reanimated"
     ],
     "newArchEnabled": true,
     "extra": {
