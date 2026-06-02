@@ -4,7 +4,6 @@
     "slug": "visual-pt",
     "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "splash": {
       "backgroundColor": "#000000"
@@ -20,7 +19,6 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#000000"
       },
       "package": "com.nexsol.visualpt",
