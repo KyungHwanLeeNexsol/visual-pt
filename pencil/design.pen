@@ -1,0 +1,1595 @@
+{
+  "version": "2.13",
+  "children": [
+    {
+      "type": "frame",
+      "id": "qpaaP",
+      "x": 0,
+      "y": 0,
+      "name": "Home Screen",
+      "clip": true,
+      "width": 375,
+      "fill": "#08080F",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "DggcW",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "PN45d",
+              "name": "Time",
+              "fill": "#FFFFFF",
+              "content": "9:41",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "l2ocKJ",
+              "name": "Icons",
+              "fill": "#FFFFFF",
+              "content": "●●●",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "y8aNT",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            32,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "c9e0PE",
+              "name": "Hero Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "j0usq",
+                  "name": "Title Row",
+                  "width": "fill_container",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "v1k2Cp",
+                      "name": "App Title",
+                      "fill": "#FFFFFF",
+                      "content": "Visual PT",
+                      "fontFamily": "Inter",
+                      "fontSize": 42,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "imGpN",
+                      "name": "Neon Dot",
+                      "fill": "#39FF14",
+                      "width": 10,
+                      "height": 10
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "ClR0R",
+                  "name": "Tagline",
+                  "fill": "#9DA3B4",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "집에서도 전문가 수준의\n운동 폼 교정을",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Inter",
+                  "fontSize": 18
+                },
+                {
+                  "type": "frame",
+                  "id": "N7YAkQ",
+                  "name": "Badge Row",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "W5mxJx",
+                      "name": "스쿼트 Badge",
+                      "fill": "#1A1A2E",
+                      "cornerRadius": 20,
+                      "gap": 6,
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "Jvhq5",
+                          "name": "Dot",
+                          "fill": "#39FF14",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "tkyqR",
+                          "name": "Label",
+                          "fill": "#FFFFFF",
+                          "content": "스쿼트",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "X4YMfi",
+                      "name": "데드리프트 Badge",
+                      "fill": "#1A1A2E",
+                      "cornerRadius": 20,
+                      "gap": 6,
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "k2b4PB",
+                          "name": "Dot",
+                          "fill": "#39FF14",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "Qjd3J",
+                          "name": "Label",
+                          "fill": "#FFFFFF",
+                          "content": "데드리프트",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "YaPKI",
+              "name": "Spacer1",
+              "width": "fill_container",
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "nbEBF",
+              "name": "Hero Image Frame",
+              "metadata": {
+                "type": "unsplash",
+                "username": "sayolo",
+                "link": "https://unsplash.com/@sayolo",
+                "author": "Sayo Garcia"
+              },
+              "width": "fill_container",
+              "height": 320,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "https://images.unsplash.com/photo-1567877312778-13080ea6b9b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODAzNjg5MzN8&ixlib=rb-4.1.0&q=80&w=1080",
+                "mode": "fill"
+              },
+              "cornerRadius": 20
+            },
+            {
+              "type": "frame",
+              "id": "wo5wh",
+              "name": "Overlay Frame",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "S8oU2",
+                  "name": "Spacer2",
+                  "width": "fill_container",
+                  "height": 32
+                },
+                {
+                  "type": "frame",
+                  "id": "n2ZCnA",
+                  "name": "CTA Button",
+                  "width": "fill_container",
+                  "height": 60,
+                  "fill": "#39FF14",
+                  "cornerRadius": 16,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ggjXM",
+                      "name": "CTA Text",
+                      "fill": "#000000",
+                      "content": "운동 시작",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "qTTV5",
+                  "name": "Disclaimer",
+                  "fill": "#4A4F63",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "본 앱은 일반적인 운동 가이드를 제공하며 의료 진단을 대체하지 않습니다.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "sWeT9",
+              "name": "Bottom Pad",
+              "width": "fill_container",
+              "height": 32
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "YyDK4",
+      "x": 455,
+      "y": 0,
+      "name": "Exercise Selection Screen",
+      "clip": true,
+      "width": 375,
+      "fill": "#08080F",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ZoRT0",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "uOydj",
+              "name": "Time",
+              "fill": "#FFFFFF",
+              "content": "9:41",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "RHgQt",
+              "name": "Icons",
+              "fill": "#FFFFFF",
+              "content": "●●●",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "v2px2Y",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            8,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "E03Mwp",
+              "name": "Header Row",
+              "width": "fill_container",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "hUhk4",
+                  "name": "Screen Title",
+                  "fill": "#FFFFFF",
+                  "content": "운동 선택",
+                  "fontFamily": "Inter",
+                  "fontSize": 28,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "OSNRm",
+              "name": "스쿼트 Card",
+              "width": "fill_container",
+              "fill": "#0F0F1A",
+              "cornerRadius": 16,
+              "stroke": "#39FF14",
+              "strokeWidth": {
+                "left": 3
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "yfMWp",
+                  "name": "Card Inner",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "zS9Eg",
+                      "name": "Top Row",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Jv1X1",
+                          "name": "Emoji",
+                          "fill": "#FFFFFF",
+                          "content": "🏋️",
+                          "fontFamily": "Inter",
+                          "fontSize": 36,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ZQZCJ",
+                          "name": "Exercise Name",
+                          "fill": "#FFFFFF",
+                          "content": "스쿼트",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "dqsfU",
+                      "name": "Description",
+                      "fill": "#9DA3B4",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "하체 근력의 핵심. 올바른 무릎과 허리 각도를 교정합니다.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Jr9r6",
+                      "name": "Tag Row",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tj9n9",
+                          "name": "대퇴사두근",
+                          "fill": "#0A2200",
+                          "cornerRadius": 20,
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "L2s7x",
+                              "name": "Tag Text",
+                              "fill": "#39FF14",
+                              "content": "대퇴사두근",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "DAcOq",
+                          "name": "둔근",
+                          "fill": "#0A2200",
+                          "cornerRadius": 20,
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "At1Z6",
+                              "name": "Tag Text",
+                              "fill": "#39FF14",
+                              "content": "둔근",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "uHUGm",
+                          "name": "햄스트링",
+                          "fill": "#0A2200",
+                          "cornerRadius": 20,
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "W1Z7ZV",
+                              "name": "Tag Text",
+                              "fill": "#39FF14",
+                              "content": "햄스트링",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "s6Olx1",
+                      "name": "Start Button",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "#39FF14",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "trvgX",
+                          "name": "Start Text",
+                          "fill": "#000000",
+                          "content": "시작",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "t41CN",
+              "name": "데드리프트 Card",
+              "width": "fill_container",
+              "fill": "#0F0F1A",
+              "cornerRadius": 16,
+              "stroke": "#39FF14",
+              "strokeWidth": {
+                "left": 3
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "TWSF1",
+                  "name": "Card Inner",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "d5rY3",
+                      "name": "Top Row",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nNg2y",
+                          "name": "Emoji",
+                          "fill": "#FFFFFF",
+                          "content": "💪",
+                          "fontFamily": "Inter",
+                          "fontSize": 36,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "V5hes",
+                          "name": "Exercise Name",
+                          "fill": "#FFFFFF",
+                          "content": "데드리프트",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "K2Pyi",
+                      "name": "Description",
+                      "fill": "#9DA3B4",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "전신 근육을 동원하는 복합 운동. 척추 중립을 유지합니다.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JDN8l",
+                      "name": "Tag Row",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "BrgH1",
+                          "name": "척추기립근",
+                          "fill": "#0A2200",
+                          "cornerRadius": 20,
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "w5ADx",
+                              "name": "Tag Text",
+                              "fill": "#39FF14",
+                              "content": "척추기립근",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "M87F2d",
+                          "name": "햄스트링",
+                          "fill": "#0A2200",
+                          "cornerRadius": 20,
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "O9DHs",
+                              "name": "Tag Text",
+                              "fill": "#39FF14",
+                              "content": "햄스트링",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "gcmtW",
+                          "name": "광배근",
+                          "fill": "#0A2200",
+                          "cornerRadius": 20,
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "NFtqP",
+                              "name": "Tag Text",
+                              "fill": "#39FF14",
+                              "content": "광배근",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vzCIy",
+                      "name": "Start Button",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "#39FF14",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "M9aKI",
+                          "name": "Start Text",
+                          "fill": "#000000",
+                          "content": "시작",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "c7Zlh",
+              "name": "Bottom Pad",
+              "width": "fill_container",
+              "height": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "HO0lQ",
+      "x": 910,
+      "y": 0,
+      "name": "Camera Screen",
+      "clip": true,
+      "width": 375,
+      "height": 812,
+      "fill": "#08080F",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Rcexl",
+          "x": 0,
+          "y": 0,
+          "name": "Camera BG",
+          "metadata": {
+            "type": "unsplash",
+            "username": "corey_untitled",
+            "link": "https://unsplash.com/@corey_untitled",
+            "author": "Corey Young"
+          },
+          "width": 375,
+          "height": 812,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "https://images.unsplash.com/photo-1701116395966-b6e8de9db9e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODAzNjg5Nzd8&ixlib=rb-4.1.0&q=80&w=1080",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "Q3b6C",
+          "x": 0,
+          "y": 0,
+          "name": "Top Overlay",
+          "width": 375,
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            0,
+            16
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "UdqDt",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "IejXA",
+                  "name": "Time",
+                  "fill": "#FFFFFF",
+                  "content": "9:41",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "mK8GN",
+                  "name": "Icons",
+                  "fill": "#FFFFFF",
+                  "content": "●●●",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "J4GgSp",
+              "name": "Disclaimer Bar",
+              "width": "fill_container",
+              "fill": "#1A0000",
+              "cornerRadius": 8,
+              "padding": [
+                6,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "svbiB",
+                  "name": "Disclaimer Text",
+                  "fill": "#FF6B6B",
+                  "content": "⚠ 의료·재활 진단 도구가 아닙니다",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "naof4",
+          "x": 16,
+          "y": 160,
+          "name": "FPS Counter",
+          "fill": "#00000080",
+          "cornerRadius": 6,
+          "padding": [
+            4,
+            10
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "fBihM",
+              "name": "FPS Text",
+              "fill": "#39FF14",
+              "content": "30 FPS",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Qfcvy",
+          "x": 87,
+          "y": 180,
+          "name": "Skeleton Overlay",
+          "width": 200,
+          "height": 400,
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "ZEsyu",
+              "x": 95,
+              "y": 5,
+              "name": "Head Joint",
+              "fill": "#39FF14",
+              "width": 10,
+              "height": 10,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#39FF1480",
+                "blur": 8
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "P6rwFt",
+              "x": 95,
+              "y": 55,
+              "name": "Neck Joint",
+              "fill": "#39FF14",
+              "width": 10,
+              "height": 10,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#39FF1480",
+                "blur": 8
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "CSSy0",
+              "x": 55,
+              "y": 95,
+              "name": "L Shoulder Joint",
+              "fill": "#39FF14",
+              "width": 10,
+              "height": 10,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#39FF1480",
+                "blur": 8
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "y3FdA",
+              "x": 135,
+              "y": 95,
+              "name": "R Shoulder Joint",
+              "fill": "#39FF14",
+              "width": 10,
+              "height": 10,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#39FF1480",
+                "blur": 8
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "xpWzJ",
+              "x": 95,
+              "y": 155,
+              "name": "Hip Center Joint",
+              "fill": "#39FF14",
+              "width": 10,
+              "height": 10,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#39FF1480",
+                "blur": 8
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "L4W7M",
+              "x": 55,
+              "y": 225,
+              "name": "L Knee Joint",
+              "fill": "#39FF14",
+              "width": 10,
+              "height": 10,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#39FF1480",
+                "blur": 8
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "sb6mB",
+              "x": 135,
+              "y": 225,
+              "name": "R Knee Joint",
+              "fill": "#39FF14",
+              "width": 10,
+              "height": 10,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#39FF1480",
+                "blur": 8
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "YOjG9",
+              "x": 50,
+              "y": 305,
+              "name": "L Ankle Joint",
+              "fill": "#39FF14",
+              "width": 10,
+              "height": 10,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#39FF1480",
+                "blur": 8
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "DDh6L",
+              "x": 140,
+              "y": 305,
+              "name": "R Ankle Joint",
+              "fill": "#39FF14",
+              "width": 10,
+              "height": 10,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#39FF1480",
+                "blur": 8
+              }
+            },
+            {
+              "type": "rectangle",
+              "id": "Jg6VQ",
+              "x": 99,
+              "y": 10,
+              "name": "Spine Top",
+              "fill": "#39FF1499",
+              "width": 2,
+              "height": 50
+            },
+            {
+              "type": "rectangle",
+              "id": "k8ors",
+              "x": 99,
+              "y": 60,
+              "name": "L Upper Arm",
+              "rotation": 45,
+              "fill": "#39FF1499",
+              "width": 2,
+              "height": 56.568542494923804
+            },
+            {
+              "type": "rectangle",
+              "id": "KCwpd",
+              "x": 99,
+              "y": 60,
+              "name": "R Upper Arm",
+              "rotation": -45,
+              "fill": "#39FF1499",
+              "width": 2,
+              "height": 56.568542494923804
+            },
+            {
+              "type": "rectangle",
+              "id": "GSHlg",
+              "x": 99,
+              "y": 60,
+              "name": "Torso",
+              "fill": "#39FF1499",
+              "width": 2,
+              "height": 100
+            },
+            {
+              "type": "rectangle",
+              "id": "f1IqI",
+              "x": 99,
+              "y": 160,
+              "name": "L Thigh",
+              "rotation": 29.74488129694223,
+              "fill": "#39FF1499",
+              "width": 2,
+              "height": 80.62257748298549
+            },
+            {
+              "type": "rectangle",
+              "id": "wyvG6",
+              "x": 99,
+              "y": 160,
+              "name": "R Thigh",
+              "rotation": -29.74488129694223,
+              "fill": "#39FF1499",
+              "width": 2,
+              "height": 80.62257748298549
+            },
+            {
+              "type": "rectangle",
+              "id": "MQuzS",
+              "x": 59,
+              "y": 230,
+              "name": "L Shin",
+              "rotation": 3.5763343749973515,
+              "fill": "#39FF1499",
+              "width": 2,
+              "height": 80.15609770940699
+            },
+            {
+              "type": "rectangle",
+              "id": "Q0rQQ",
+              "x": 139,
+              "y": 230,
+              "name": "R Shin",
+              "rotation": -3.5763343749973515,
+              "fill": "#39FF1499",
+              "width": 2,
+              "height": 80.15609770940699
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xJDO9",
+          "x": 0,
+          "y": 712,
+          "name": "Bottom Area",
+          "width": 375,
+          "height": 100,
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            12,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "L6LVP3",
+              "name": "End Session Button",
+              "fill": "#FF2D2D",
+              "cornerRadius": 30,
+              "padding": [
+                14,
+                40
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "f0oaz",
+                  "name": "End Text",
+                  "fill": "#FFFFFF",
+                  "content": "세션 종료",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "AahBg",
+      "x": 1365,
+      "y": 0,
+      "name": "Session Summary Screen",
+      "clip": true,
+      "width": 375,
+      "fill": "#08080F",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "DUmfG",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "y0gIZ",
+              "name": "Time",
+              "fill": "#FFFFFF",
+              "content": "9:41",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "nZoi5",
+              "name": "Icons",
+              "fill": "#FFFFFF",
+              "content": "●●●",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "KQnkK",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            8,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "O22QiY",
+              "name": "Header",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "g38lg6",
+                  "name": "Screen Title",
+                  "fill": "#FFFFFF",
+                  "content": "세션 요약",
+                  "fontFamily": "Inter",
+                  "fontSize": 28,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "vT7X0",
+                  "name": "Exercise Label",
+                  "fill": "#39FF14",
+                  "content": "스쿼트",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "cgYr9",
+              "name": "Stats Row",
+              "width": "fill_container",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "lCLle",
+                  "name": "총 렙수 Card",
+                  "width": "fill_container",
+                  "fill": "#0F0F1A",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": [
+                    20,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "MxcvE",
+                      "name": "Stat Label",
+                      "fill": "#9DA3B4",
+                      "content": "총 렙수",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "t0jQ6w",
+                      "name": "Stat Value",
+                      "fill": "#39FF14",
+                      "content": "24",
+                      "fontFamily": "Inter",
+                      "fontSize": 40,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "PpFGa",
+                      "name": "Stat Unit",
+                      "fill": "#9DA3B4",
+                      "content": "reps",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Zk0Io",
+                  "name": "운동 시간 Card",
+                  "width": "fill_container",
+                  "fill": "#0F0F1A",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": [
+                    20,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rlirG",
+                      "name": "Stat Label",
+                      "fill": "#9DA3B4",
+                      "content": "운동 시간",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "mMm6s",
+                      "name": "Stat Value",
+                      "fill": "#39FF14",
+                      "content": "12:34",
+                      "fontFamily": "Inter",
+                      "fontSize": 40,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "AFDK1",
+                      "name": "Stat Unit",
+                      "fill": "#9DA3B4",
+                      "content": "min",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "mzKsU",
+              "name": "Error Section",
+              "width": "fill_container",
+              "fill": "#0F0F1A",
+              "cornerRadius": 16,
+              "layout": "vertical",
+              "gap": 14,
+              "padding": [
+                20,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "i3PG4",
+                  "name": "Error Title",
+                  "fill": "#FFFFFF",
+                  "content": "오류 빈도",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "Tikh1",
+                  "name": "무릎이 발끝을 넘어감 Row",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "W05B1",
+                      "name": "Label Row",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "gNmVx",
+                          "name": "Err Label",
+                          "fill": "#9DA3B4",
+                          "content": "무릎이 발끝을 넘어감",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "dz5Vz",
+                          "name": "Err Count",
+                          "fill": "#FF6B6B",
+                          "content": "8회",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Rrjb9",
+                      "name": "Bar BG",
+                      "width": "fill_container",
+                      "height": 6,
+                      "fill": "#1E1E2E",
+                      "cornerRadius": 3
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 3,
+                      "id": "EEks2",
+                      "layoutPosition": "absolute",
+                      "x": 0,
+                      "y": -6,
+                      "name": "Bar Fill",
+                      "fill": "#FF6B6B",
+                      "width": 177,
+                      "height": 6
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Z49nW",
+                  "name": "허리가 굽어짐 Row",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "v4TXY",
+                      "name": "Label Row",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "sUEfJ",
+                          "name": "Err Label",
+                          "fill": "#9DA3B4",
+                          "content": "허리가 굽어짐",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Dzxs8",
+                          "name": "Err Count",
+                          "fill": "#FF6B6B",
+                          "content": "5회",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "S6yNtB",
+                      "name": "Bar BG",
+                      "width": "fill_container",
+                      "height": 6,
+                      "fill": "#1E1E2E",
+                      "cornerRadius": 3
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 3,
+                      "id": "IJim2",
+                      "layoutPosition": "absolute",
+                      "x": 0,
+                      "y": -6,
+                      "name": "Bar Fill",
+                      "fill": "#FF6B6B",
+                      "width": 103,
+                      "height": 6
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YCI6z",
+                  "name": "발이 들림 Row",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "L4fNAr",
+                      "name": "Label Row",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RNg1I",
+                          "name": "Err Label",
+                          "fill": "#9DA3B4",
+                          "content": "발이 들림",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ZQXq0",
+                          "name": "Err Count",
+                          "fill": "#FF6B6B",
+                          "content": "2회",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "HpQan",
+                      "name": "Bar BG",
+                      "width": "fill_container",
+                      "height": 6,
+                      "fill": "#1E1E2E",
+                      "cornerRadius": 3
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 3,
+                      "id": "m5cht",
+                      "layoutPosition": "absolute",
+                      "x": 0,
+                      "y": -6,
+                      "name": "Bar Fill",
+                      "fill": "#FF6B6B",
+                      "width": 44,
+                      "height": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "v9mu8p",
+              "name": "AI Coaching",
+              "width": "fill_container",
+              "fill": "#0A1A08",
+              "cornerRadius": 16,
+              "stroke": "#39FF1440",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 10,
+              "padding": [
+                20,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Hbixi",
+                  "name": "AI Title",
+                  "fill": "#39FF14",
+                  "content": "AI 코칭 피드백",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "AW1XN",
+                  "name": "AI Feedback",
+                  "fill": "#FFFFFF",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "무릎이 발끝을 자주 넘어가고 있습니다. 스쿼트 시 발을 조금 더 넓게 벌리고 발끝을 바깥으로 15도 정도 돌려보세요. 전반적인 자세는 개선되고 있습니다.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "i1LoG",
+              "name": "Back Button",
+              "width": "fill_container",
+              "height": 56,
+              "fill": "#39FF14",
+              "cornerRadius": 16,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "w6LP1",
+                  "name": "Back Text",
+                  "fill": "#000000",
+                  "content": "운동 선택으로 돌아가기",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "iLUQF",
+              "name": "Bottom Pad",
+              "width": "fill_container",
+              "height": 24
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
