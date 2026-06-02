@@ -30,7 +30,7 @@
     "plugins": [
       "react-native-vision-camera"
     ],
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "extra": {
       "eas": {
         "projectId": "370cd54f-a191-48f8-9694-e99290d6bab6"
