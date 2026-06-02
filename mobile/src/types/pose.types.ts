@@ -58,6 +58,9 @@ export interface JointAngles {
   spine?: number;
   leftShoulder?: number;
   rightShoulder?: number;
+  // 데드리프트 전용: 몸통(어깨-힙 벡터)과 수직 축 사이의 각도 (도)
+  // 스쿼트에서는 undefined, 데드리프트 바닥 자세 정상 범위: 30-45도
+  torsoAngle?: number;
 }
 
 export type ExerciseType = 'squat' | 'deadlift';

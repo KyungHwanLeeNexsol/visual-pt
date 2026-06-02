@@ -11,6 +11,8 @@ jest.mock('react-native-vision-camera', () => ({
     requestCameraPermission: jest.fn().mockResolvedValue('granted'),
   },
   useCameraDevice: jest.fn().mockReturnValue({ id: 'back', position: 'back' }),
+  // useFrameProcessor: 테스트 환경에서는 워크릿 미지원 — 빈 프로세서 함수 반환
+  useFrameProcessor: jest.fn().mockReturnValue(jest.fn()),
 }), { virtual: true });
 
 jest.mock('react-native-mediapipe-posedetection', () => ({
@@ -81,6 +83,26 @@ jest.mock('../../hooks/usePoseDetection', () => ({
     fps: 0,
     startDetection: mockStartDetection,
     stopDetection: mockStopDetection,
+    onPoseDetected: jest.fn(),
+  })),
+  // createPoseCallback은 프레임 프로세서 워크릿에서 사용 — 테스트에서 no-op으로 처리
+  createPoseCallback: jest.fn(() => jest.fn()),
+}));
+
+// SessionAnalyticsService 모킹 — CameraScreen이 사용하는 분석 서비스
+jest.mock('../../services/SessionAnalyticsService', () => ({
+  SessionAnalyticsService: jest.fn().mockImplementation(() => ({
+    startSession: jest.fn(),
+    addSnapshot: jest.fn(),
+    endSession: jest.fn().mockReturnValue({
+      exercise: 'squat',
+      totalReps: 0,
+      avgAngles: {},
+      errorFrequency: {},
+      sessionDurationMs: 0,
+      snapshotCount: 0,
+    }),
+    reset: jest.fn(),
   })),
 }));
 

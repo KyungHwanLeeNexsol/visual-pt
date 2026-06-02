@@ -242,4 +242,117 @@ describe('JointAngleCalculator', () => {
       expect(angles.leftShoulder).toBeUndefined();
     });
   });
+
+  // E1: 데드리프트 몸통 각도 계산 테스트
+  describe('calculateAngles - E1: 데드리프트 torsoAngle 계산', () => {
+    it('데드리프트 → torsoAngle 이 계산된다 (number)', () => {
+      // LEFT_SHOULDER(11)와 LEFT_HIP(23)이 가시적이면 torsoAngle 반환
+      const landmarks = makeLandmarks({
+        [LandmarkIndex.LEFT_SHOULDER]: { x: 0.5, y: 0.0, z: 0, visibility: 1.0 },
+        [LandmarkIndex.LEFT_HIP]: { x: 0.5, y: 0.5, z: 0, visibility: 1.0 },
+      });
+      const angles = calculator.calculateAngles(landmarks, 'deadlift');
+      expect(angles.torsoAngle).toBeDefined();
+      expect(typeof angles.torsoAngle).toBe('number');
+    });
+
+    it('스쿼트 → torsoAngle 은 undefined이다', () => {
+      const landmarks = makeLandmarks();
+      const angles = calculator.calculateAngles(landmarks, 'squat');
+      expect(angles.torsoAngle).toBeUndefined();
+    });
+
+    it('데드리프트에서 수직 몸통(어깨-힙이 수직) → torsoAngle ≈ 0도', () => {
+      // LEFT_SHOULDER 와 LEFT_HIP 이 같은 x 좌표, 수직으로 배치 → 수직 축과의 각도 ≈ 0
+      const landmarks = makeLandmarks({
+        [LandmarkIndex.LEFT_SHOULDER]: { x: 0.5, y: 0.0, z: 0, visibility: 1.0 },
+        [LandmarkIndex.LEFT_HIP]: { x: 0.5, y: 0.5, z: 0, visibility: 1.0 },
+      });
+      const angles = calculator.calculateAngles(landmarks, 'deadlift');
+      expect(angles.torsoAngle).toBeCloseTo(0, 0);
+    });
+
+    it('데드리프트에서 45도 기울어진 몸통 → torsoAngle ≈ 45도', () => {
+      // 어깨가 힙보다 좌측으로 0.5만큼 이동(dx=0.5, dy=0.5) → 45도
+      const landmarks = makeLandmarks({
+        [LandmarkIndex.LEFT_SHOULDER]: { x: 0.0, y: 0.0, z: 0, visibility: 1.0 },
+        [LandmarkIndex.LEFT_HIP]: { x: 0.5, y: 0.5, z: 0, visibility: 1.0 },
+      });
+      const angles = calculator.calculateAngles(landmarks, 'deadlift');
+      expect(angles.torsoAngle).toBeCloseTo(45, 0);
+    });
+
+    it('LEFT_SHOULDER visibility < 0.5 → torsoAngle 은 undefined', () => {
+      const landmarks = makeLandmarks({
+        [LandmarkIndex.LEFT_SHOULDER]: { x: 0.5, y: 0.0, z: 0, visibility: 0.3 },
+        [LandmarkIndex.LEFT_HIP]: { x: 0.5, y: 0.5, z: 0, visibility: 1.0 },
+      });
+      const angles = calculator.calculateAngles(landmarks, 'deadlift');
+      expect(angles.torsoAngle).toBeUndefined();
+    });
+
+    it('LEFT_HIP visibility < 0.5 → torsoAngle 은 undefined', () => {
+      const landmarks = makeLandmarks({
+        [LandmarkIndex.LEFT_SHOULDER]: { x: 0.5, y: 0.0, z: 0, visibility: 1.0 },
+        [LandmarkIndex.LEFT_HIP]: { x: 0.5, y: 0.5, z: 0, visibility: 0.2 },
+      });
+      const angles = calculator.calculateAngles(landmarks, 'deadlift');
+      expect(angles.torsoAngle).toBeUndefined();
+    });
+  });
+
+  // E1: 데드리프트 torsoAngle 에러 감지 테스트
+  describe('detectErrors - E1: 데드리프트 torsoAngle 에러 감지', () => {
+    it('데드리프트 torsoAngle = 20도 (30-80 범위 하한 이하) → TORSO_ANGLE_OUT_OF_RANGE 에러', () => {
+      const angles = { torsoAngle: 20 };
+      const errors = calculator.detectErrors(angles, 'deadlift');
+      expect(errors.some((e) => e.type === 'TORSO_ANGLE_OUT_OF_RANGE')).toBe(true);
+    });
+
+    it('데드리프트 torsoAngle = 85도 (30-80 범위 상한 초과) → TORSO_ANGLE_OUT_OF_RANGE 에러', () => {
+      const angles = { torsoAngle: 85 };
+      const errors = calculator.detectErrors(angles, 'deadlift');
+      expect(errors.some((e) => e.type === 'TORSO_ANGLE_OUT_OF_RANGE')).toBe(true);
+    });
+
+    it('데드리프트 torsoAngle = 45도 (범위 내) → TORSO_ANGLE_OUT_OF_RANGE 에러 없음', () => {
+      const angles = { torsoAngle: 45 };
+      const errors = calculator.detectErrors(angles, 'deadlift');
+      expect(errors.filter((e) => e.type === 'TORSO_ANGLE_OUT_OF_RANGE')).toHaveLength(0);
+    });
+
+    it('데드리프트 torsoAngle = 30도 (경계 하한 포함) → 에러 없음', () => {
+      const angles = { torsoAngle: 30 };
+      const errors = calculator.detectErrors(angles, 'deadlift');
+      expect(errors.filter((e) => e.type === 'TORSO_ANGLE_OUT_OF_RANGE')).toHaveLength(0);
+    });
+
+    it('데드리프트 torsoAngle = 80도 (경계 상한 포함) → 에러 없음', () => {
+      const angles = { torsoAngle: 80 };
+      const errors = calculator.detectErrors(angles, 'deadlift');
+      expect(errors.filter((e) => e.type === 'TORSO_ANGLE_OUT_OF_RANGE')).toHaveLength(0);
+    });
+
+    it('데드리프트 torsoAngle = undefined → TORSO_ANGLE_OUT_OF_RANGE 에러 없음', () => {
+      const angles = { torsoAngle: undefined };
+      const errors = calculator.detectErrors(angles, 'deadlift');
+      expect(errors.filter((e) => e.type === 'TORSO_ANGLE_OUT_OF_RANGE')).toHaveLength(0);
+    });
+
+    it('스쿼트에서 torsoAngle 이 있어도 TORSO_ANGLE_OUT_OF_RANGE 에러 없음', () => {
+      // 스쿼트는 torsoAngle 검사를 하지 않는다
+      const angles = { torsoAngle: 10 };
+      const errors = calculator.detectErrors(angles, 'squat');
+      expect(errors.filter((e) => e.type === 'TORSO_ANGLE_OUT_OF_RANGE')).toHaveLength(0);
+    });
+
+    it('TORSO_ANGLE_OUT_OF_RANGE 에러에 currentValue 와 expectedRange 가 포함된다', () => {
+      const angles = { torsoAngle: 20 };
+      const errors = calculator.detectErrors(angles, 'deadlift');
+      const err = errors.find((e) => e.type === 'TORSO_ANGLE_OUT_OF_RANGE');
+      expect(err).toBeDefined();
+      expect(err?.currentValue).toBe(20);
+      expect(err?.expectedRange).toEqual([30, 80]);
+    });
+  });
 });

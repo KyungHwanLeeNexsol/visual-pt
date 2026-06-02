@@ -62,7 +62,11 @@ export class JointAngleCalculator {
     angles.leftShoulder = this.shoulderLevelAngle(landmarks);
     angles.rightShoulder = angles.leftShoulder;
 
-    void exercise; // 현재는 운동 종류에 무관하게 동일 계산 (Phase C에서 확장 예정)
+    // 데드리프트 전용: 몸통 각도(수직 축 대비 어깨-힙 벡터 기울기) 계산
+    if (exercise === 'deadlift') {
+      angles.torsoAngle = this.torsoVerticalAngle(landmarks);
+    }
+    // 스쿼트는 torsoAngle 불필요 (undefined 유지)
 
     return angles;
   }
@@ -164,6 +168,21 @@ export class JointAngleCalculator {
       }
     }
 
+    // 데드리프트 몸통 각도 검사 (Phase C: torsoAngle 플레이스홀더 해소)
+    if ('torsoAngle' in config && angles.torsoAngle !== undefined) {
+      const { min, max } = config.torsoAngle;
+
+      if (angles.torsoAngle < min || angles.torsoAngle > max) {
+        errors.push({
+          type: 'TORSO_ANGLE_OUT_OF_RANGE',
+          joint: 'torso',
+          currentValue: angles.torsoAngle,
+          expectedRange: [min, max],
+          message: FEEDBACK_MESSAGES.TORSO_ANGLE_OUT_OF_RANGE.text,
+        });
+      }
+    }
+
     return errors;
   }
 
@@ -199,6 +218,25 @@ export class JointAngleCalculator {
     const dx = rightShoulder.x - leftShoulder.x;
     const dy = rightShoulder.y - leftShoulder.y;
     const angleRad = Math.atan2(Math.abs(dy), Math.abs(dx));
+    return (angleRad * 180) / Math.PI;
+  }
+
+  // 데드리프트 전용: 몸통(LEFT_SHOULDER → LEFT_HIP 벡터)과 수직 축(0,1)의 각도 계산
+  // 수직에 가까울수록 0도, 90도 기울어지면 90도
+  private torsoVerticalAngle(landmarks: Keypoint[]): number | undefined {
+    const shoulder = landmarks[LandmarkIndex.LEFT_SHOULDER];
+    const hip = landmarks[LandmarkIndex.LEFT_HIP];
+
+    if (!shoulder || !hip) return undefined;
+    if (!this.isVisible(shoulder) || !this.isVisible(hip)) return undefined;
+
+    // 몸통 벡터: 힙에서 어깨 방향 (위쪽이 양의 y 감소 방향)
+    const dx = shoulder.x - hip.x;
+    const dy = shoulder.y - hip.y; // 정규화 좌표에서 위쪽 = y 감소
+
+    // 수직 축 (0, -1) 과의 각도: atan2(|dx|, |dy|)
+    // dy 가 음수(어깨가 힙보다 위)일 때 수직에 가까움
+    const angleRad = Math.atan2(Math.abs(dx), Math.abs(dy));
     return (angleRad * 180) / Math.PI;
   }
 }

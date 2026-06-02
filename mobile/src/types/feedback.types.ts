@@ -4,7 +4,8 @@ export type FormErrorType =
   | 'KNEE_ANGLE_OUT_OF_RANGE'
   | 'SPINE_MISALIGNMENT'
   | 'SHOULDER_IMBALANCE'
-  | 'HIP_ALIGNMENT';
+  | 'HIP_ALIGNMENT'
+  | 'TORSO_ANGLE_OUT_OF_RANGE'; // 데드리프트 전용: 몸통 각도 범위 이탈
 
 export interface FormError {
   type: FormErrorType;

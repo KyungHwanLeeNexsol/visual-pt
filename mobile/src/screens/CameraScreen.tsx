@@ -1,6 +1,7 @@
 // SPEC-UI-001 / SPEC-UI-002: 실시간 자세 추정 메인 화면 (M1~M5 통합 + 실제 카메라 연결)
+// SPEC-ENHANCE-001 E2: 세션 분석 통합 — SessionAnalyticsService로 렙/각도/오류 추적
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -21,6 +22,7 @@ import { useJointAngles } from '../hooks/useJointAngles';
 import { useFeedback } from '../hooks/useFeedback';
 import { useWorkoutStore } from '../store/workoutStore';
 import { useFeedbackStore } from '../store/feedbackStore';
+import { SessionAnalyticsService } from '../services/SessionAnalyticsService';
 
 import { CameraOverlay } from '../components/CameraOverlay';
 import { FeedbackBadge } from '../components/FeedbackBadge';
@@ -48,6 +50,9 @@ export function CameraScreen({ route, navigation }: CameraScreenProps): React.JS
   const [angleQuality, setAngleQuality] = useState<AngleQuality>('good');
   const [showDebugAngles, setShowDebugAngles] = useState(false);
 
+  // E2: 세션 분석 서비스 (싱글톤 아님 — 컴포넌트 생명주기에 바인딩)
+  const analyticsServiceRef = useRef<SessionAnalyticsService>(new SessionAnalyticsService());
+
   const exercise = route.params?.exercise ?? null;
 
   const { angles, errors } = useJointAngles(
@@ -56,6 +61,7 @@ export function CameraScreen({ route, navigation }: CameraScreenProps): React.JS
   );
 
   // SPEC-UI-002 N4: 마운트 시 자동 세션 시작, 언마운트 시 정리
+  // SPEC-ENHANCE-001 E2: 세션 분석 서비스 시작
   useEffect(() => {
     if (!exercise) {
       navigation.goBack();
@@ -67,6 +73,9 @@ export function CameraScreen({ route, navigation }: CameraScreenProps): React.JS
     setActive(true);
     startDetection(exercise);
     setShowGuide(true); // AC-8: 진입 시 가이드 표시
+
+    // E2: 세션 분석 시작
+    analyticsServiceRef.current.startSession(exercise, Date.now());
 
     return () => {
       // 언마운트 시 세션·추론 정리
@@ -87,6 +96,15 @@ export function CameraScreen({ route, navigation }: CameraScreenProps): React.JS
       setErrors([]);
     }
   }, [errors, exercise, triggerFeedback, setErrors]);
+
+  // E2: 각도 스냅샷 누적 — angles가 변경될 때마다 세션 분석 서비스에 추가
+  useEffect(() => {
+    if (angles && exercise) {
+      analyticsServiceRef.current.addSnapshot(angles, errors, Date.now());
+    }
+    // errors 최신값을 함께 캡처하기 위해 deps에 포함
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [angles]);
 
   // M3: 피드백 메시지를 feedbackStore에 저장
   useEffect(() => {
@@ -112,12 +130,16 @@ export function CameraScreen({ route, navigation }: CameraScreenProps): React.JS
     }
   }, [latestPose]);
 
-  // 세션 종료
+  // 세션 종료: 분석 요약 계산 후 SessionSummaryScreen으로 이동
+  // SPEC-ENHANCE-001 E2: goBack() 대신 navigate로 요약 화면 전환
   const handleEndSession = useCallback(() => {
     endSession();
     setActive(false);
     stopDetection();
-    navigation.goBack();
+
+    // E2: 세션 분석 완료 후 요약 화면으로 이동
+    const summary = analyticsServiceRef.current.endSession(Date.now());
+    navigation.navigate('SessionSummaryScreen', { summary });
   }, [endSession, setActive, stopDetection, navigation]);
 
   // N5: 프레임 프로세서 — 카메라 프레임을 포즈 추론 파이프라인으로 전달

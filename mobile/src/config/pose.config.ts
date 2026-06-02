@@ -17,6 +17,7 @@ export const POSE_CONFIG = {
     hipAngle: { min: 30, max: 100 },
     kneeAngle: { min: 100, max: 160 },
     shoulderAngle: { min: 0, max: 30 },
+    torsoAngle: { min: 30, max: 80 }, // 몸통 수직 각도: 바닥 자세 정상 범위 30-80도
   },
 } as const;
 
