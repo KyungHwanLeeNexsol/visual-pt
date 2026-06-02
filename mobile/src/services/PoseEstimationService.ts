@@ -1,4 +1,4 @@
-// SPEC-UI-001: M1 react-native-mediapipe-posedetection 통합 서비스
+// SPEC-UI-001: M1 react-native-mediapipe 통합 서비스
 
 import type { ExerciseType } from '../types/pose.types';
 
@@ -22,7 +22,7 @@ export class PoseEstimationService implements IPoseEstimationService {
     /* istanbul ignore next -- 네이티브 모듈 초기화, 실기기 전용 */
     try {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const { PoseLandmarker } = require('react-native-mediapipe-posedetection') as {
+      const { PoseLandmarker } = require('react-native-mediapipe') as {
         PoseLandmarker: {
           createFromOptions: (opts: Record<string, unknown>) => Promise<unknown>;
         };
@@ -47,7 +47,7 @@ export class PoseEstimationService implements IPoseEstimationService {
     /* istanbul ignore next -- 네이티브 모듈 해제, 실기기 전용 */
     try {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const { PoseLandmarker } = require('react-native-mediapipe-posedetection') as {
+      const { PoseLandmarker } = require('react-native-mediapipe') as {
         PoseLandmarker: { close: () => Promise<void> };
       };
       await PoseLandmarker.close();

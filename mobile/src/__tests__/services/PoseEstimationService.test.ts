@@ -1,9 +1,13 @@
 // SPEC-UI-001: PoseEstimationService 단위 테스트 (Phase C)
 
-// react-native-mediapipe-posedetection 네이티브 모듈 mock
+// react-native-mediapipe 네이티브 모듈 mock
 jest.mock(
-  'react-native-mediapipe-posedetection',
+  'react-native-mediapipe',
   () => ({
+    usePoseLandmarker: jest.fn(() => ({
+      detect: jest.fn(),
+      isModelLoaded: false,
+    })),
     PoseLandmarker: {
       createFromOptions: jest.fn().mockResolvedValue({}),
       close: jest.fn().mockResolvedValue(undefined),

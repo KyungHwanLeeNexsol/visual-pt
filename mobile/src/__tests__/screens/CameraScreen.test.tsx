@@ -15,11 +15,11 @@ jest.mock('react-native-vision-camera', () => ({
   useFrameProcessor: jest.fn().mockReturnValue(jest.fn()),
 }), { virtual: true });
 
-jest.mock('react-native-mediapipe-posedetection', () => ({
-  PoseLandmarker: {
-    createFromOptions: jest.fn().mockResolvedValue({}),
-    close: jest.fn().mockResolvedValue(undefined),
-  },
+jest.mock('react-native-mediapipe', () => ({
+  usePoseLandmarker: jest.fn(() => ({
+    detect: jest.fn(),
+    isModelLoaded: true,
+  })),
 }), { virtual: true });
 
 jest.mock('react-native-svg', () => {
@@ -85,7 +85,7 @@ jest.mock('../../hooks/usePoseDetection', () => ({
     stopDetection: mockStopDetection,
     onPoseDetected: jest.fn(),
   })),
-  // createPoseCallback은 프레임 프로세서 워크릿에서 사용 — 테스트에서 no-op으로 처리
+  // createPoseCallback: 하위 호환성 유지 export — CameraScreen에서는 더 이상 사용하지 않음
   createPoseCallback: jest.fn(() => jest.fn()),
 }));
 

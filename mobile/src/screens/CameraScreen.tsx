@@ -16,8 +16,11 @@ import {
   useFrameProcessor,
 } from 'react-native-vision-camera';
 
+import { usePoseLandmarker } from 'react-native-mediapipe';
+import type { NormalizedLandmark } from 'react-native-mediapipe';
+
 import { useCamera } from '../hooks/useCamera';
-import { usePoseDetection, createPoseCallback } from '../hooks/usePoseDetection';
+import { usePoseDetection } from '../hooks/usePoseDetection';
 import { useJointAngles } from '../hooks/useJointAngles';
 import { useFeedback } from '../hooks/useFeedback';
 import { useWorkoutStore } from '../store/workoutStore';
@@ -33,6 +36,10 @@ import { VISIBILITY_THRESHOLD } from '../config/pose.config';
 import type { CameraScreenProps } from '../navigation/types';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+
+// MediaPipe Pose Landmarker Lite 모델 URL — 첫 실행 시 다운로드됨
+const POSE_MODEL_URL =
+  'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task';
 
 // @MX:ANCHOR: 실시간 자세 추정 파이프라인의 최상위 통합 컴포넌트
 // @MX:REASON: M1~M5 전체 파이프라인이 이 화면에서 결합됨 (SPEC-UI-001, SPEC-UI-002)
@@ -142,23 +149,44 @@ export function CameraScreen({ route, navigation }: CameraScreenProps): React.JS
     navigation.navigate('SessionSummaryScreen', { summary });
   }, [endSession, setActive, stopDetection, navigation]);
 
-  // N5: 프레임 프로세서 — 카메라 프레임을 포즈 추론 파이프라인으로 전달
-  // @MX:WARN: useFrameProcessor는 워크릿에서 실행됨 — JS 함수는 runOnJS로만 호출 가능
-  // @MX:REASON: react-native-worklets-core 의존, 실기기에서만 동작
-  const poseCallback = createPoseCallback(onPoseDetected);
+  // N5: MediaPipe Pose Landmarker 초기화 — 첫 실행 시 모델을 다운로드하고 GPU에 로드
+  // @MX:WARN: [AUTO] usePoseLandmarker는 네이티브 비동기 초기화를 포함 — isModelLoaded가 true가 될 때까지 detect 호출 금지
+  // @MX:REASON: [AUTO] GPU 델리게이트 초기화 전 detect() 호출 시 크래시 발생 가능
+  const { detect, isModelLoaded } = usePoseLandmarker(
+    POSE_MODEL_URL,
+    {
+      numPoses: 1,
+      minPoseDetectionConfidence: 0.5,
+      minPosePresenceConfidence: 0.5,
+      minTrackingConfidence: 0.5,
+      delegate: 'GPU',
+      runningMode: 'VIDEO',
+      // onResults는 JS 스레드에서 호출됨 — runOnJS 불필요
+      onResults: (results: { landmarks: NormalizedLandmark[][] }) => {
+        // 33개 랜드마크가 있는 첫 번째 포즈만 처리
+        if (results.landmarks[0] && results.landmarks[0].length === 33) {
+          const keypoints = results.landmarks[0].map((lm: NormalizedLandmark) => ({
+            x: lm.x,
+            y: lm.y,
+            z: lm.z,
+            visibility: lm.visibility ?? 0,
+          }));
+          onPoseDetected(keypoints, Date.now());
+        }
+      },
+    },
+  );
+
+  // N5: 프레임 프로세서 — 카메라 프레임을 MediaPipe 추론 파이프라인으로 전달
+  // @MX:WARN: [AUTO] useFrameProcessor는 워크릿에서 실행됨 — JS 함수는 runOnJS로만 호출 가능
+  // @MX:REASON: [AUTO] react-native-worklets-core 의존, 실기기에서만 동작; onResults는 react-native-mediapipe 내부에서 JS 스레드로 전달됨
   const frameProcessor = useFrameProcessor((frame) => {
     'worklet';
-    // react-native-mediapipe-posedetection 네이티브 플러그인이 여기서 호출됨
-    // 실기기에서 포즈 랜드마크를 추출하고 JS 스레드로 결과를 전달
-    // TODO: 실기기 PoC 단계에서 실제 플러그인 API로 교체
-    const mockLandmarks: { x: number; y: number; z: number; visibility: number }[] = [];
-    void frame;
-    void mockLandmarks;
-    // 실제 구현 예시:
-    // const result = detectPose(frame); // 네이티브 플러그인
-    // poseCallback(result.landmarks, frame.timestamp);
-    void poseCallback;
-  }, [poseCallback]);
+    // isModelLoaded가 true일 때만 추론 실행 — 모델 로딩 중 크래시 방지
+    if (isModelLoaded) {
+      detect(frame);
+    }
+  }, [detect, isModelLoaded]);
 
   // 권한 미허용 또는 카메라 디바이스 없음 — graceful fallback (N5 Unwanted)
   if (!hasPermission || !device) {
@@ -193,6 +221,13 @@ export function CameraScreen({ route, navigation }: CameraScreenProps): React.JS
         frameProcessor={frameProcessor}
         testID="camera-view"
       />
+
+      {/* 모델 로딩 중 오버레이 — isModelLoaded가 false일 때 표시 */}
+      {!isModelLoaded && (
+        <View style={styles.modelLoadingOverlay} pointerEvents="none">
+          <Text style={styles.modelLoadingText}>모델 로딩 중...</Text>
+        </View>
+      )}
 
       {/* FPS 디버그 표시 */}
       {isProcessing && (
@@ -322,6 +357,21 @@ const styles = StyleSheet.create({
   debugToggleText: {
     color: '#FFFFFF',
     fontSize: 12,
+  },
+  modelLoadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modelLoadingText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
   fpsOverlay: {
     position: 'absolute',
