@@ -28,7 +28,13 @@
       ]
     },
     "plugins": [
-      "react-native-vision-camera"
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "운동 자세 분석을 위해 카메라를 사용합니다.",
+          "enableFrameProcessors": false
+        }
+      ]
     ],
     "extra": {
       "eas": {
