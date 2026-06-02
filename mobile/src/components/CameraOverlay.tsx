@@ -26,10 +26,10 @@ const JOINT_LANDMARK_MAP: Record<string, number[]> = {
   rightShoulder: [12],
 };
 
-const DEFAULT_COLOR = '#00FF00'; // 정상 관절 색상 (lime)
-const ERROR_COLOR = '#FF0000';   // 오류 관절 색상 (red)
-const JOINT_RADIUS = 5;
-const LINE_STROKE_WIDTH = 2;
+const DEFAULT_COLOR = '#39FF14'; // 정상 관절 색상 (네온 그린 — Pencil 디자인 기준)
+const ERROR_COLOR = '#FF5252';   // 오류 관절 색상 (소프트 레드)
+const JOINT_RADIUS = 6;
+const LINE_STROKE_WIDTH = 2.5;
 
 interface LandmarkPoint {
   x: number;
