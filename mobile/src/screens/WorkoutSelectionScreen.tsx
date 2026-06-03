@@ -13,6 +13,12 @@ import { EXERCISE_CATALOG } from '../config/exercise.catalog';
 import { useWorkoutStore } from '../store/workoutStore';
 import { Colors } from '../theme/colors';
 
+// 운동별 이모지 매핑
+const EXERCISE_EMOJI: Record<string, string> = {
+  squat: '🏋️‍♂️',
+  deadlift: '💪',
+};
+
 export function WorkoutSelectionScreen({ navigation }: WorkoutSelectionScreenProps): React.JSX.Element {
   const { selectExercise } = useWorkoutStore();
 
@@ -28,21 +34,34 @@ export function WorkoutSelectionScreen({ navigation }: WorkoutSelectionScreenPro
 
         {EXERCISE_CATALOG.map((ex) => (
           <View key={ex.id} style={styles.card} testID={`exercise-card-${ex.id}`}>
-            <View style={styles.imagePlaceholder} testID={`exercise-image-${ex.id}`}>
-              <Text style={styles.imagePlaceholderText}>{ex.name[0]}</Text>
-            </View>
-            <View style={styles.cardContent}>
-              <Text style={styles.exerciseName}>{ex.name}</Text>
+            <View style={styles.cardInner}>
+              {/* 상단 행: 이모지 + 운동명 */}
+              <View style={styles.topRow}>
+                <Text style={styles.emojiText}>{EXERCISE_EMOJI[ex.id] ?? '🏃'}</Text>
+                <Text style={styles.exerciseName}>{ex.name}</Text>
+              </View>
+
+              {/* 설명 */}
               <Text style={styles.exerciseDesc}>{ex.description}</Text>
-              <Text style={styles.muscles}>{ex.targetMuscles.join(' · ')}</Text>
+
+              {/* 근육 태그 행 */}
+              <View style={styles.tagRow} testID={`exercise-image-${ex.id}`}>
+                {ex.targetMuscles.map((muscle) => (
+                  <View key={muscle} style={styles.tagPill}>
+                    <Text style={styles.tagText}>{muscle}</Text>
+                  </View>
+                ))}
+              </View>
+
+              {/* 시작 버튼 */}
+              <TouchableOpacity
+                style={styles.selectButton}
+                onPress={() => handleSelectExercise(ex.id)}
+                testID={`start-button-${ex.id}`}
+              >
+                <Text style={styles.selectButtonText}>시작</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={styles.selectButton}
-              onPress={() => handleSelectExercise(ex.id)}
-              testID={`start-button-${ex.id}`}
-            >
-              <Text style={styles.selectButtonText}>시작</Text>
-            </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
@@ -62,58 +81,67 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
 
-  // 운동 카드 — 왼쪽 액센트 보더 (토스 스타일)
+  // 운동 카드 — 왼쪽 액센트 보더 (Pencil 디자인)
   card: {
-    backgroundColor: Colors.bgCard,
-    borderRadius: 20,
-    padding: 20,
-    flexDirection: 'column',
-    gap: 14,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    // 왼쪽 액센트 선
+    backgroundColor: '#0F0F1A',
+    borderRadius: 16,
     borderLeftWidth: 3,
-    borderLeftColor: Colors.accent,
+    borderLeftColor: '#39FF14',
+    overflow: 'hidden',
   },
 
-  // 운동 이미지 플레이스홀더 — 더 진하고 임팩트 있게
-  imagePlaceholder: {
-    height: 110,
-    backgroundColor: Colors.bgAccentDim,
-    borderRadius: 14,
-    justifyContent: 'center',
+  cardInner: {
+    flexDirection: 'column',
+    gap: 12,
+    padding: 20,
+  },
+
+  // 상단 행: 이모지 + 운동명
+  topRow: {
+    flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: Colors.accentDim,
+    gap: 12,
   },
-  imagePlaceholderText: {
-    fontSize: 52,
+  emojiText: {
+    fontSize: 36,
   },
-
-  cardContent: { gap: 6 },
   exerciseName: {
     fontSize: 22,
     fontWeight: '800',
-    color: Colors.textPrimary,
-    letterSpacing: -0.3,
+    color: '#FFFFFF',
   },
+
   exerciseDesc: {
     fontSize: 13,
-    color: Colors.textSecondary,
-    lineHeight: 19,
+    color: '#9DA3B4',
+    lineHeight: 19.5,
   },
-  muscles: {
-    fontSize: 12,
-    color: Colors.accent,
-    fontWeight: '500',
+
+  // 근육 태그 행
+  tagRow: {
+    flexDirection: 'row',
+    gap: 8,
+    flexWrap: 'wrap',
+  },
+  tagPill: {
+    backgroundColor: '#0A2200',
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  tagText: {
+    color: '#39FF14',
+    fontSize: 11,
+    fontWeight: '600',
   },
 
   // 시작 버튼 — 네온 그린
   selectButton: {
-    backgroundColor: Colors.accent,
-    padding: 14,
+    backgroundColor: '#39FF14',
+    height: 48,
     borderRadius: 12,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   selectButtonText: {
     color: '#000000',

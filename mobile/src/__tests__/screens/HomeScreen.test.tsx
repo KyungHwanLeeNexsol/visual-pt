@@ -64,7 +64,7 @@ describe('HomeScreen (AC-N2)', () => {
     );
     expect(getByTestId('legal-disclaimer')).toBeTruthy();
     // Text 컴포넌트 children에 면책 문구 포함 여부 확인
-    expect(getByText(/의료·재활 진단 도구가 아닙니다/)).toBeTruthy();
+    expect(getByText(/의료 진단을 대체하지 않습니다/)).toBeTruthy();
   });
 
   it('AC-N2: "운동 시작" 버튼 클릭 시 WorkoutSelection으로 navigate한다', () => {

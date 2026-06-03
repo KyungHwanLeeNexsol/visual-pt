@@ -139,12 +139,23 @@ export function SessionSummaryScreen({ route, navigation }: SessionSummaryScreen
         {topErrors.length === 0 ? (
           <Text style={styles.noErrorText}>오류 없음 — 훌륭한 자세입니다!</Text>
         ) : (
-          topErrors.map(([type, count]) => (
-            <View key={type} style={styles.errorRow}>
-              <Text style={styles.errorLabel}>{ERROR_TYPE_LABELS[type]}</Text>
-              <Text style={styles.errorCount}>{count}회</Text>
-            </View>
-          ))
+          (() => {
+            const maxError = Math.max(...topErrors.map(([, c]) => c ?? 0), 1);
+            return topErrors.map(([type, count]) => {
+              const percentage = ((count ?? 0) / maxError) * 100;
+              return (
+                <View key={type} style={styles.errorItem}>
+                  <View style={styles.errorRow}>
+                    <Text style={styles.errorLabel}>{ERROR_TYPE_LABELS[type]}</Text>
+                    <Text style={styles.errorCount}>{count}회</Text>
+                  </View>
+                  <View style={styles.progressBarBg}>
+                    <View style={[styles.progressBarFill, { width: `${percentage}%` }]} />
+                  </View>
+                </View>
+              );
+            });
+          })()
         )}
       </View>
 
@@ -191,25 +202,21 @@ const styles = StyleSheet.create({
     paddingBottom: 48,
   },
 
-  // 헤더 — 운동 완료 강조
+  // 헤더 — Pencil 디자인: 좌측 정렬, 큰 타이틀
   header: {
-    alignItems: 'center',
     marginBottom: 28,
     marginTop: 40,
     gap: 4,
   },
   headerTitle: {
-    color: Colors.textTertiary,
-    fontSize: 12,
-    letterSpacing: 3,
-    textTransform: 'uppercase',
-    fontWeight: '600',
+    color: '#FFFFFF',
+    fontSize: 28,
+    fontWeight: '800',
   },
   exerciseName: {
-    color: Colors.textPrimary,
-    fontSize: 30,
-    fontWeight: '900',
-    letterSpacing: -0.5,
+    color: '#39FF14',
+    fontSize: 16,
+    fontWeight: '600',
   },
 
   // 핵심 통계 카드 — 큰 숫자
@@ -276,29 +283,41 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 
-  // 오류 행
+  // 오류 항목 컨테이너
+  errorItem: {
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  // 오류 행 — 레이블 + 카운트
   errorRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
   },
   errorLabel: {
-    color: Colors.textPrimary,
-    fontSize: 14,
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '500',
     flex: 1,
   },
   errorCount: {
-    color: Colors.error,
-    fontSize: 14,
-    fontWeight: '700',
-    backgroundColor: '#2A1010',
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    borderRadius: 20,
+    color: '#9DA3B4',
+    fontSize: 12,
+  },
+  // 프로그레스바
+  progressBarBg: {
+    height: 6,
+    backgroundColor: '#1E1E2E',
+    borderRadius: 3,
+    width: '100%',
     overflow: 'hidden',
+    marginTop: 4,
+  },
+  progressBarFill: {
+    height: 6,
+    backgroundColor: '#FF6B6B',
+    borderRadius: 3,
   },
   noErrorText: {
     color: Colors.success,
@@ -308,17 +327,17 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  // AI 코칭 섹션 — 그라디언트 느낌 테두리
+  // AI 코칭 섹션 — Pencil 디자인: #39FF1440 테두리
   aiSection: {
     backgroundColor: Colors.bgCard,
     borderRadius: 18,
     padding: 20,
     marginBottom: 28,
-    borderWidth: 1.5,
-    borderColor: Colors.accentSoft,
+    borderWidth: 1,
+    borderColor: '#39FF1440',
   },
   aiTitle: {
-    color: Colors.accentSoft,
+    color: '#39FF14',
     fontSize: 11,
     letterSpacing: 2,
     textTransform: 'uppercase',

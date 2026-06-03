@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { HomeScreenProps } from '../navigation/types';
@@ -20,7 +21,7 @@ export function HomeScreen({ navigation }: HomeScreenProps): React.JSX.Element {
         {/* 앱 브랜드 타이틀 — 네온 액센트 포인트 */}
         <View style={styles.brandRow}>
           <Text style={styles.title} testID="home-title">Visual PT</Text>
-          <Text style={styles.accentDot}>.</Text>
+          <View style={styles.accentDot} />
         </View>
         <Text style={styles.tagline}>집에서도 전문가 수준의 운동 폼 교정을</Text>
 
@@ -28,10 +29,18 @@ export function HomeScreen({ navigation }: HomeScreenProps): React.JSX.Element {
         <View style={styles.badgeRow} testID="exercise-list">
           {EXERCISE_CATALOG.map((ex) => (
             <View key={ex.id} style={styles.badge}>
+              <View style={styles.badgeDot} />
               <Text style={styles.badgeText}>{ex.name}</Text>
             </View>
           ))}
         </View>
+
+        {/* 히어로 이미지 */}
+        <Image
+          source={{ uri: 'https://images.unsplash.com/photo-1567877312778-13080ea6b9b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODAzNjg5MzN8&ixlib=rb-4.1.0&q=80&w=1080' }}
+          style={styles.heroImage}
+          resizeMode="cover"
+        />
 
         <TouchableOpacity
           style={styles.startButton}
@@ -43,8 +52,7 @@ export function HomeScreen({ navigation }: HomeScreenProps): React.JSX.Element {
 
         {/* 법적 면책 고지 */}
         <Text style={styles.disclaimer} testID="legal-disclaimer">
-          Visual PT는 의료·재활 진단 도구가 아닙니다.{'\n'}
-          2D 카메라 분석의 특성상 각도 오차가 발생할 수 있습니다.
+          본 앱은 일반적인 운동 가이드를 제공하며 의료 진단을 대체하지 않습니다.
         </Text>
       </ScrollView>
     </SafeAreaView>
@@ -59,20 +67,21 @@ const styles = StyleSheet.create({
   brandRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   // 앱 이름 스타일 — 크고 임팩트 있게
   title: {
-    fontSize: 38,
-    fontWeight: '900',
+    fontSize: 42,
+    fontWeight: '800',
     color: Colors.textPrimary,
-    letterSpacing: -1,
+    fontFamily: 'Inter',
   },
   accentDot: {
-    fontSize: 38,
-    fontWeight: '900',
-    color: Colors.accent,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#39FF14',
   },
   tagline: {
-    fontSize: 15,
-    color: Colors.textSecondary,
-    lineHeight: 22,
+    fontSize: 18,
+    color: '#9DA3B4',
+    lineHeight: 27,
     marginTop: -8,
   },
 
@@ -83,25 +92,40 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   badge: {
-    backgroundColor: Colors.bgCardElevated,
+    backgroundColor: '#1A1A2E',
     borderRadius: 20,
     paddingHorizontal: 14,
     paddingVertical: 6,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  badgeDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#39FF14',
   },
   badgeText: {
-    color: Colors.textSecondary,
+    color: '#FFFFFF',
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: '600',
+  },
+
+  // 히어로 이미지
+  heroImage: {
+    width: '100%',
+    height: 320,
+    borderRadius: 20,
   },
 
   // CTA 버튼 — 풀 width 네온 그린
   startButton: {
     backgroundColor: Colors.accent,
-    padding: 18,
+    height: 60,
     borderRadius: 16,
     alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 8,
   },
   startButtonText: {
