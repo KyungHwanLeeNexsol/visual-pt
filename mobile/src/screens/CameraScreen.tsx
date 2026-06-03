@@ -37,7 +37,7 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 // @MX:REASON: M1~M5 전체 파이프라인이 이 화면에서 결합됨 (SPEC-UI-001, SPEC-UI-002)
 // @MX:SPEC: SPEC-UI-001, SPEC-UI-002
 export function CameraScreen({ route, navigation }: CameraScreenProps): React.JSX.Element {
-  const { hasPermission, requestPermission } = useCamera();
+  const { hasPermission, isPermissionLoading, requestPermission } = useCamera();
   const device = useCameraDevice('back');
   const { latestPose, isProcessing, fps, startDetection, stopDetection, onPoseDetected } = usePoseDetection();
   const { currentMessage, triggerFeedback } = useFeedback();
@@ -144,6 +144,15 @@ export function CameraScreen({ route, navigation }: CameraScreenProps): React.JS
   // N5: 포즈 감지 연결 예정 — 현재 카메라 피드만 표시 (MVP 빌드)
   // TODO: react-native-mediapipe 안정화 후 실제 포즈 감지로 교체
   const isModelLoaded = false; // 항상 false — 포즈 감지 미연결
+
+  // 권한 상태 조회 중 — 네이티브 응답 전에 Camera를 렌더링하면 실기기 크래시 발생
+  if (isPermissionLoading) {
+    return (
+      <View style={styles.permissionContainer} testID="permission-loading-screen">
+        <Text style={styles.permissionText}>카메라 초기화 중...</Text>
+      </View>
+    );
+  }
 
   // 권한 미허용 또는 카메라 디바이스 없음 — graceful fallback (N5 Unwanted)
   if (!hasPermission || !device) {

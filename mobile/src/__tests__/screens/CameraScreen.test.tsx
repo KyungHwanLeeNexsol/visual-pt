@@ -5,15 +5,19 @@ import { render, act } from '@testing-library/react-native';
 import { CameraScreen } from '../../screens/CameraScreen';
 
 // 네이티브 모듈 모킹
-jest.mock('react-native-vision-camera', () => ({
-  Camera: {
-    getCameraPermissionStatus: jest.fn().mockResolvedValue('not-determined'),
-    requestCameraPermission: jest.fn().mockResolvedValue('granted'),
-  },
-  useCameraDevice: jest.fn().mockReturnValue({ id: 'back', position: 'back' }),
-  // useFrameProcessor: 테스트 환경에서는 워크릿 미지원 — 빈 프로세서 함수 반환
-  useFrameProcessor: jest.fn().mockReturnValue(jest.fn()),
-}), { virtual: true });
+// Camera는 React 컴포넌트(함수)이면서 static 메서드를 갖는 형태로 모킹해야 함
+// jest.mock 팩토리는 호이스팅되므로 내부에서 직접 정의
+jest.mock('react-native-vision-camera', () => {
+  const MockCamera = jest.fn(() => null);
+  MockCamera.getCameraPermissionStatus = jest.fn().mockResolvedValue('not-determined');
+  MockCamera.requestCameraPermission = jest.fn().mockResolvedValue('granted');
+  return {
+    Camera: MockCamera,
+    useCameraDevice: jest.fn().mockReturnValue({ id: 'back', position: 'back' }),
+    // useFrameProcessor: 테스트 환경에서는 워크릿 미지원 — 빈 프로세서 함수 반환
+    useFrameProcessor: jest.fn().mockReturnValue(jest.fn()),
+  };
+}, { virtual: true });
 
 jest.mock('react-native-mediapipe', () => ({
   usePoseLandmarker: jest.fn(() => ({

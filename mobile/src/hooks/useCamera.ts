@@ -7,6 +7,7 @@ export type CameraPermissionStatus = 'granted' | 'denied' | 'not-determined';
 
 export interface UseCameraResult {
   hasPermission: boolean;
+  isPermissionLoading: boolean;
   permissionStatus: CameraPermissionStatus;
   requestPermission: () => Promise<void>;
 }
@@ -16,6 +17,8 @@ export interface UseCameraResult {
 export function useCamera(): UseCameraResult {
   const [permissionStatus, setPermissionStatus] =
     useState<CameraPermissionStatus>('not-determined');
+  // 네이티브 권한 조회가 완료되기 전까지 로딩 상태 유지
+  const [isPermissionLoading, setIsPermissionLoading] = useState(true);
 
   // 마운트 시 현재 권한 상태 조회
   useEffect(() => {
@@ -28,6 +31,11 @@ export function useCamera(): UseCameraResult {
       })
       .catch(() => {
         // 네이티브 모듈 없는 환경에서는 기본값 유지
+      })
+      .finally(() => {
+        if (mounted) {
+          setIsPermissionLoading(false);
+        }
       });
     return () => {
       mounted = false;
@@ -45,6 +53,7 @@ export function useCamera(): UseCameraResult {
 
   return {
     hasPermission: permissionStatus === 'granted',
+    isPermissionLoading,
     permissionStatus,
     requestPermission,
   };
