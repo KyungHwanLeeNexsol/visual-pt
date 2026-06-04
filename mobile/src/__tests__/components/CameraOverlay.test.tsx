@@ -70,7 +70,7 @@ describe('CameraOverlay (AC-7)', () => {
     );
     const json = JSON.stringify(toJSON());
     // 기본 색상이 포함되어야 함
-    expect(json).toMatch(/#00FF00|lime|#00ff00/i);
+    expect(json).toMatch(/#39FF14|#00FF00|lime|#00ff00/i);
   });
 
   it('오류가 있는 관절은 에러 색상(#FF0000 또는 red)으로 렌더링된다', () => {
@@ -81,7 +81,7 @@ describe('CameraOverlay (AC-7)', () => {
     );
     const json = JSON.stringify(toJSON());
     // 에러 색상이 포함되어야 함
-    expect(json).toMatch(/#FF0000|red|#ff0000/i);
+    expect(json).toMatch(/#FF5252|#FF0000|red|#ff0000/i);
   });
 
   it('SKELETON_CONNECTIONS 상수가 export된다', () => {

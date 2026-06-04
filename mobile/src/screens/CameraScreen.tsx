@@ -249,7 +249,7 @@ export function CameraScreen({ route, navigation }: CameraScreenProps): React.JS
       {/* 법적 면책 고지 */}
       <View style={styles.disclaimerBanner} pointerEvents="none">
         <Text style={styles.disclaimerBannerText}>
-          의료·재활 진단 도구가 아닙니다
+          ⚠ 의료·재활 진단 도구가 아닙니다
         </Text>
       </View>
     </View>
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   stopButton: {
-    backgroundColor: '#D32F2F',
+    backgroundColor: '#FF2D2D',
     paddingHorizontal: 40,
     paddingVertical: 16,
     borderRadius: 32,
@@ -332,15 +332,16 @@ const styles = StyleSheet.create({
   },
   fpsOverlay: {
     position: 'absolute',
-    top: 50,
-    right: 16,
+    top: 160,
+    left: 16,
     backgroundColor: 'rgba(0,0,0,0.5)',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 8,
   },
   fpsText: {
-    color: '#00FF00',
+    color: '#39FF14',
+    fontWeight: '600',
     fontSize: 12,
     fontFamily: 'monospace',
   },
@@ -377,12 +378,16 @@ const styles = StyleSheet.create({
   disclaimerBanner: {
     position: 'absolute',
     top: 44,
-    left: 0,
-    right: 0,
+    left: 16,
+    right: 16,
     alignItems: 'center',
+    backgroundColor: '#1A0000',
+    borderRadius: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
   },
   disclaimerBannerText: {
-    color: 'rgba(255,255,255,0.4)',
-    fontSize: 10,
+    color: '#FF6B6B',
+    fontSize: 11,
   },
 });

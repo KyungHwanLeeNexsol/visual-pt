@@ -160,13 +160,13 @@ describe('CameraScreen (SPEC-UI-002 N4)', () => {
 
   it('법적 면책 고지 텍스트가 표시된다', async () => {
     const { Camera } = require('react-native-vision-camera');
-    Camera.getCameraPermissionStatus.mockResolvedValue('granted');
+    Camera.getCameraPermissionStatus.mockReturnValue('granted');
 
     const { getByText } = render(
       <CameraScreen navigation={mockNavigation} route={mockRouteWithExercise} />,
     );
     await act(async () => {});
-    expect(getByText('의료·재활 진단 도구가 아닙니다')).toBeTruthy();
+    expect(getByText('⚠ 의료·재활 진단 도구가 아닙니다')).toBeTruthy();
   });
 
   // ─── N4 신규 테스트 ───────────────────────────────────────────────────

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  ImageBackground,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { WorkoutSelectionScreenProps } from '../navigation/types';
@@ -17,6 +18,21 @@ import { Colors } from '../theme/colors';
 const EXERCISE_EMOJI: Record<string, string> = {
   squat: '🏋️‍♂️',
   deadlift: '💪',
+};
+
+const EXERCISE_IMAGES: Record<string, string> = {
+  squat: 'https://images.unsplash.com/photo-1670349191471-98a4aa998f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODA1NTMwMjZ8&ixlib=rb-4.1.0&q=80&w=1080',
+  deadlift: 'https://images.unsplash.com/photo-1758875569256-f37c438cac65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODA1NTE5NDZ8&ixlib=rb-4.1.0&q=80&w=1080',
+};
+
+const EXERCISE_IMAGE_OPACITY: Record<string, number> = {
+  squat: 0.45,
+  deadlift: 0.4,
+};
+
+const EXERCISE_OVERLAY_COLOR: Record<string, string> = {
+  squat: 'rgba(15,15,26,0.67)',
+  deadlift: 'rgba(15,15,26,0.70)',
 };
 
 export function WorkoutSelectionScreen({ navigation }: WorkoutSelectionScreenProps): React.JSX.Element {
@@ -33,8 +49,8 @@ export function WorkoutSelectionScreen({ navigation }: WorkoutSelectionScreenPro
         <Text style={styles.header}>운동 선택</Text>
 
         {EXERCISE_CATALOG.map((ex) => (
-          <View key={ex.id} style={styles.card} testID={`exercise-card-${ex.id}`}>
-            <View style={styles.cardInner}>
+          <ImageBackground key={ex.id} source={{ uri: EXERCISE_IMAGES[ex.id] ?? '' }} style={styles.card} imageStyle={{ opacity: EXERCISE_IMAGE_OPACITY[ex.id] ?? 0.4 }} resizeMode="cover" testID={`exercise-card-${ex.id}`}>
+            <View style={[styles.cardInner, { backgroundColor: EXERCISE_OVERLAY_COLOR[ex.id] ?? 'rgba(15,15,26,0.67)' }]}>
               {/* 상단 행: 이모지 + 운동명 */}
               <View style={styles.topRow}>
                 <Text style={styles.emojiText}>{EXERCISE_EMOJI[ex.id] ?? '🏃'}</Text>
@@ -62,7 +78,7 @@ export function WorkoutSelectionScreen({ navigation }: WorkoutSelectionScreenPro
                 <Text style={styles.selectButtonText}>시작</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </ImageBackground>
         ))}
       </ScrollView>
     </SafeAreaView>
@@ -74,7 +90,7 @@ const styles = StyleSheet.create({
   content: { padding: 20, gap: 14, paddingTop: 32, paddingBottom: 32 },
 
   header: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: '800',
     color: Colors.textPrimary,
     marginBottom: 4,
@@ -83,7 +99,6 @@ const styles = StyleSheet.create({
 
   // 운동 카드 — 왼쪽 액센트 보더 (Pencil 디자인)
   card: {
-    backgroundColor: '#0F0F1A',
     borderRadius: 16,
     borderLeftWidth: 3,
     borderLeftColor: '#39FF14',

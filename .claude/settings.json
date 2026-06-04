@@ -519,5 +519,5 @@
   "includeGitInstructions": true,
   "plansDirectory": ".moai/plans",
   "disableBypassPermissionsMode": false,
-  "skillListingBudgetFraction": 3
+  "skillListingBudgetFraction": 0.3
 }

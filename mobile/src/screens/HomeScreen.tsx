@@ -61,10 +61,10 @@ export function HomeScreen({ navigation }: HomeScreenProps): React.JSX.Element {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.bgPrimary },
-  content: { padding: 24, paddingTop: 40, gap: 24 },
+  content: { paddingHorizontal: 20, paddingTop: 32, paddingBottom: 32 },
 
   // 브랜드 타이틀 행
-  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
   // 앱 이름 스타일 — 크고 임팩트 있게
   title: {
     fontSize: 42,
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     flexWrap: 'wrap',
+    marginBottom: 4,
   },
   badge: {
     backgroundColor: '#1A1A2E',
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 320,
     borderRadius: 20,
+    marginTop: 44,
   },
 
   // CTA 버튼 — 풀 width 네온 그린
@@ -126,7 +128,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 8,
+    marginTop: 32,
   },
   startButtonText: {
     color: '#000000',
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
 
   disclaimer: {
     fontSize: 11,
-    color: Colors.textTertiary,
+    color: '#4A4F63',
     lineHeight: 17,
     textAlign: 'center',
     marginTop: 4,

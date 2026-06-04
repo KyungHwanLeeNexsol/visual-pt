@@ -135,7 +135,7 @@ export function SessionSummaryScreen({ route, navigation }: SessionSummaryScreen
 
       {/* 상위 오류 섹션 */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>주요 폼 오류</Text>
+        <Text style={styles.sectionTitle}>오류 빈도</Text>
         {topErrors.length === 0 ? (
           <Text style={styles.noErrorText}>오류 없음 — 훌륭한 자세입니다!</Text>
         ) : (
@@ -161,7 +161,7 @@ export function SessionSummaryScreen({ route, navigation }: SessionSummaryScreen
 
       {/* E3 AI 코칭 섹션 */}
       <View style={styles.aiSection}>
-        <Text style={styles.aiTitle}>AI 코칭</Text>
+        <Text style={styles.aiTitle}>AI 코칭 피드백</Text>
         {isLoadingCoaching ? (
           // 로딩 중: 분석 중 표시
           <View style={styles.aiLoadingContainer}>
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
 
   // AI 코칭 섹션 — Pencil 디자인: #39FF1440 테두리
   aiSection: {
-    backgroundColor: Colors.bgCard,
+    backgroundColor: '#0A1A08',
     borderRadius: 18,
     padding: 20,
     marginBottom: 28,

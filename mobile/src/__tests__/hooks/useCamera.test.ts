@@ -5,7 +5,7 @@ jest.mock(
   'react-native-vision-camera',
   () => ({
     Camera: {
-      getCameraPermissionStatus: jest.fn().mockResolvedValue('not-determined'),
+      getCameraPermissionStatus: jest.fn().mockReturnValue('not-determined'),
       requestCameraPermission: jest.fn().mockResolvedValue('granted'),
     },
     useCameraDevice: jest.fn().mockReturnValue({ id: 'back', position: 'back' }),
@@ -23,7 +23,7 @@ describe('useCamera', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     // 기본: not-determined 상태
-    mockCamera.getCameraPermissionStatus = jest.fn().mockResolvedValue('not-determined');
+    mockCamera.getCameraPermissionStatus = jest.fn().mockReturnValue('not-determined');
     mockCamera.requestCameraPermission = jest.fn().mockResolvedValue('granted');
   });
 
@@ -53,7 +53,7 @@ describe('useCamera', () => {
   });
 
   it('상태가 denied일 때 hasPermission은 false이다', async () => {
-    mockCamera.getCameraPermissionStatus = jest.fn().mockResolvedValue('denied');
+    mockCamera.getCameraPermissionStatus = jest.fn().mockReturnValue('denied');
 
     const { result } = renderHook(() => useCamera());
 

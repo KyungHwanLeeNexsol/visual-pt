@@ -104,7 +104,8 @@
                   "content": "집에서도 전문가 수준의\n운동 폼 교정을",
                   "lineHeight": 1.5,
                   "fontFamily": "Inter",
-                  "fontSize": 18
+                  "fontSize": 18,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -354,10 +355,25 @@
             },
             {
               "type": "frame",
-              "id": "OSNRm",
+              "id": "Dmp6f",
               "name": "스쿼트 Card",
+              "metadata": {
+                "type": "unsplash",
+                "username": "visualsbyroyalz",
+                "link": "https://unsplash.com/@visualsbyroyalz",
+                "author": "Anastase Maragos"
+              },
               "width": "fill_container",
-              "fill": "#0F0F1A",
+              "fill": [
+                {
+                  "type": "image",
+                  "opacity": 0.45,
+                  "enabled": true,
+                  "url": "https://images.unsplash.com/photo-1670349191471-98a4aa998f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODA1NTMwMjZ8&ixlib=rb-4.1.0&q=80&w=1080",
+                  "mode": "fill"
+                },
+                "#0F0F1AAA"
+              ],
               "cornerRadius": 16,
               "stroke": "#39FF14",
               "strokeWidth": {
@@ -366,7 +382,7 @@
               "children": [
                 {
                   "type": "frame",
-                  "id": "yfMWp",
+                  "id": "ZSIhD",
                   "name": "Card Inner",
                   "width": "fill_container",
                   "layout": "vertical",
@@ -374,58 +390,28 @@
                   "padding": 20,
                   "children": [
                     {
-                      "type": "frame",
-                      "id": "zS9Eg",
-                      "name": "Top Row",
-                      "width": "fill_container",
-                      "gap": 12,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "Jv1X1",
-                          "name": "Emoji",
-                          "fill": "#FFFFFF",
-                          "content": "🏋️",
-                          "fontFamily": "Inter",
-                          "fontSize": 36,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "text",
-                          "id": "ZQZCJ",
-                          "name": "Exercise Name",
-                          "fill": "#FFFFFF",
-                          "content": "스쿼트",
-                          "fontFamily": "Inter",
-                          "fontSize": 22,
-                          "fontWeight": "700"
-                        }
-                      ]
-                    },
-                    {
                       "type": "text",
-                      "id": "dqsfU",
-                      "name": "Description",
-                      "fill": "#9DA3B4",
+                      "id": "HyQlU",
+                      "name": "Exercise Name",
+                      "fill": "#FFFFFF",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "하체 근력의 핵심. 올바른 무릎과 허리 각도를 교정합니다.",
-                      "lineHeight": 1.5,
+                      "content": "스쿼트",
+                      "lineHeight": 1.3,
                       "fontFamily": "Inter",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
+                      "fontSize": 24,
+                      "fontWeight": "800"
                     },
                     {
                       "type": "frame",
-                      "id": "Jr9r6",
+                      "id": "c8g6J",
                       "name": "Tag Row",
                       "width": "fill_container",
                       "gap": 8,
                       "children": [
                         {
                           "type": "frame",
-                          "id": "tj9n9",
+                          "id": "X1hEU",
                           "name": "대퇴사두근",
                           "fill": "#0A2200",
                           "cornerRadius": 20,
@@ -436,7 +422,7 @@
                           "children": [
                             {
                               "type": "text",
-                              "id": "L2s7x",
+                              "id": "WVZk2",
                               "name": "Tag Text",
                               "fill": "#39FF14",
                               "content": "대퇴사두근",
@@ -448,7 +434,7 @@
                         },
                         {
                           "type": "frame",
-                          "id": "DAcOq",
+                          "id": "pKCol",
                           "name": "둔근",
                           "fill": "#0A2200",
                           "cornerRadius": 20,
@@ -459,7 +445,7 @@
                           "children": [
                             {
                               "type": "text",
-                              "id": "At1Z6",
+                              "id": "cN7t3",
                               "name": "Tag Text",
                               "fill": "#39FF14",
                               "content": "둔근",
@@ -471,7 +457,7 @@
                         },
                         {
                           "type": "frame",
-                          "id": "uHUGm",
+                          "id": "WLM9k",
                           "name": "햄스트링",
                           "fill": "#0A2200",
                           "cornerRadius": 20,
@@ -482,7 +468,7 @@
                           "children": [
                             {
                               "type": "text",
-                              "id": "W1Z7ZV",
+                              "id": "YRmf5",
                               "name": "Tag Text",
                               "fill": "#39FF14",
                               "content": "햄스트링",
@@ -496,7 +482,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "s6Olx1",
+                      "id": "s2vql",
                       "name": "Start Button",
                       "width": "fill_container",
                       "height": 48,
@@ -507,7 +493,7 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "trvgX",
+                          "id": "JGoVU",
                           "name": "Start Text",
                           "fill": "#000000",
                           "content": "시작",
@@ -525,8 +511,23 @@
               "type": "frame",
               "id": "t41CN",
               "name": "데드리프트 Card",
+              "metadata": {
+                "type": "unsplash",
+                "username": "wolfart32",
+                "link": "https://unsplash.com/@wolfart32",
+                "author": "Rodrigo Rodrigues | WOLF Λ R T"
+              },
               "width": "fill_container",
-              "fill": "#0F0F1A",
+              "fill": [
+                {
+                  "type": "image",
+                  "opacity": 0.4,
+                  "enabled": true,
+                  "url": "https://images.unsplash.com/photo-1758875569256-f37c438cac65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODA1NTE5NDZ8&ixlib=rb-4.1.0&q=80&w=1080",
+                  "mode": "fill"
+                },
+                "#0F0F1AB3"
+              ],
               "cornerRadius": 16,
               "stroke": "#39FF14",
               "strokeWidth": {
@@ -543,47 +544,17 @@
                   "padding": 20,
                   "children": [
                     {
-                      "type": "frame",
-                      "id": "d5rY3",
-                      "name": "Top Row",
-                      "width": "fill_container",
-                      "gap": 12,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "nNg2y",
-                          "name": "Emoji",
-                          "fill": "#FFFFFF",
-                          "content": "💪",
-                          "fontFamily": "Inter",
-                          "fontSize": 36,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "text",
-                          "id": "V5hes",
-                          "name": "Exercise Name",
-                          "fill": "#FFFFFF",
-                          "content": "데드리프트",
-                          "fontFamily": "Inter",
-                          "fontSize": 22,
-                          "fontWeight": "700"
-                        }
-                      ]
-                    },
-                    {
                       "type": "text",
                       "id": "K2Pyi",
                       "name": "Description",
-                      "fill": "#9DA3B4",
+                      "fill": "#FFFFFF",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "전신 근육을 동원하는 복합 운동. 척추 중립을 유지합니다.",
-                      "lineHeight": 1.5,
+                      "content": "데드리프트",
+                      "lineHeight": 1.3,
                       "fontFamily": "Inter",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
+                      "fontSize": 28,
+                      "fontWeight": "800"
                     },
                     {
                       "type": "frame",
