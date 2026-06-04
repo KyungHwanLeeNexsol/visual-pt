@@ -181,6 +181,14 @@ secret-*.*
 .moai/status_line.sh
 .moai/memory/
 .moai/worktrees/
+.moai/evolution/
+.moai/learning/
+.moai/state/
+
+# ===========================================
+# Claude Code Internal (subdirectory configs)
+# ===========================================
+mobile/.claude/
 
 # ===========================================
 # Evolution Telemetry (local-only usage data)
