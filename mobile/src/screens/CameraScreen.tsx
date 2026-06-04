@@ -1,7 +1,7 @@
 // SPEC-UI-001 / SPEC-UI-002: 실시간 자세 추정 메인 화면 (M1~M5 통합 + 실제 카메라 연결)
 // SPEC-ENHANCE-001 E2: 세션 분석 통합 — SessionAnalyticsService로 렙/각도/오류 추적
 
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import {
   View,
   Text,
@@ -39,14 +39,24 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 export function CameraScreen({ route, navigation }: CameraScreenProps): React.JSX.Element {
   const { hasPermission, isPermissionLoading, requestPermission } = useCamera();
   const device = useCameraDevice('back');
-  const { latestPose, isProcessing, fps, startDetection, stopDetection, onPoseDetected } = usePoseDetection();
+  const { latestPose, isProcessing, fps, startDetection, stopDetection } = usePoseDetection();
   const { currentMessage, triggerFeedback } = useFeedback();
   const { isSessionActive, startSession, endSession, selectExercise } = useWorkoutStore();
   const { setErrors, addMessage, setActive } = useFeedbackStore();
 
-  // M5: 카메라 배치 가이드 표시 상태
-  const [showGuide, setShowGuide] = useState(false);
-  const [angleQuality, setAngleQuality] = useState<AngleQuality>('good');
+  // M5: 카메라 배치 가이드 — 진입 시 즉시 표시 (AC-8)
+  const [showGuide, setShowGuide] = useState(true);
+
+  // M5: 가시성 점수로 앵글 품질 판정 — latestPose 파생 값
+  const angleQuality = useMemo((): AngleQuality => {
+    if (!latestPose?.landmarks) return 'good';
+    const keyLandmarks = [11, 12, 23, 24, 25, 26, 27, 28]; // 핵심 관절
+    const visibilities = keyLandmarks.map((i) => latestPose.landmarks[i]?.visibility ?? 0);
+    const avgVisibility = visibilities.reduce((sum, v) => sum + v, 0) / visibilities.length;
+    if (avgVisibility >= 0.7) return 'good';
+    if (avgVisibility >= VISIBILITY_THRESHOLD) return 'warning';
+    return 'poor';
+  }, [latestPose]);
   const [showDebugAngles, setShowDebugAngles] = useState(false);
 
   // E2: 세션 분석 서비스 (싱글톤 아님 — 컴포넌트 생명주기에 바인딩)
@@ -71,7 +81,6 @@ export function CameraScreen({ route, navigation }: CameraScreenProps): React.JS
     startSession();
     setActive(true);
     startDetection(exercise);
-    setShowGuide(true); // AC-8: 진입 시 가이드 표시
 
     // E2: 세션 분석 시작
     analyticsServiceRef.current.startSession(exercise, Date.now());
@@ -111,23 +120,6 @@ export function CameraScreen({ route, navigation }: CameraScreenProps): React.JS
       addMessage(currentMessage);
     }
   }, [currentMessage, addMessage]);
-
-  // M5: 가시성 점수로 앵글 품질 판정
-  useEffect(() => {
-    if (!latestPose?.landmarks) return;
-
-    const keyLandmarks = [11, 12, 23, 24, 25, 26, 27, 28]; // 핵심 관절
-    const visibilities = keyLandmarks.map((i) => latestPose.landmarks[i]?.visibility ?? 0);
-    const avgVisibility = visibilities.reduce((sum, v) => sum + v, 0) / visibilities.length;
-
-    if (avgVisibility >= 0.7) {
-      setAngleQuality('good');
-    } else if (avgVisibility >= VISIBILITY_THRESHOLD) {
-      setAngleQuality('warning');
-    } else {
-      setAngleQuality('poor');
-    }
-  }, [latestPose]);
 
   // 세션 종료: 분석 요약 계산 후 SessionSummaryScreen으로 이동
   // SPEC-ENHANCE-001 E2: goBack() 대신 navigate로 요약 화면 전환

@@ -518,5 +518,6 @@
   "effortLevel": "medium",
   "includeGitInstructions": true,
   "plansDirectory": ".moai/plans",
-  "disableBypassPermissionsMode": false
+  "disableBypassPermissionsMode": false,
+  "skillListingBudgetFraction": 3
 }

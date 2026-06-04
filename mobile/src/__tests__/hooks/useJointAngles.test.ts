@@ -53,7 +53,7 @@ describe('useJointAngles', () => {
     const { result, rerender } = renderHook(
       ({ lm, ex }: { lm: Keypoint[] | null; ex: 'squat' | 'deadlift' | null }) =>
         useJointAngles(lm, ex),
-      { initialProps: { lm: landmarks1, ex: 'squat' as const } },
+      { initialProps: { lm: landmarks1 as Keypoint[] | null, ex: 'squat' as 'squat' | 'deadlift' | null } },
     );
 
     const angles1 = result.current.angles;

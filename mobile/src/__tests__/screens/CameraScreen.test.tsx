@@ -8,9 +8,10 @@ import { CameraScreen } from '../../screens/CameraScreen';
 // Camera는 React 컴포넌트(함수)이면서 static 메서드를 갖는 형태로 모킹해야 함
 // jest.mock 팩토리는 호이스팅되므로 내부에서 직접 정의
 jest.mock('react-native-vision-camera', () => {
-  const MockCamera = jest.fn(() => null);
-  MockCamera.getCameraPermissionStatus = jest.fn().mockResolvedValue('not-determined');
-  MockCamera.requestCameraPermission = jest.fn().mockResolvedValue('granted');
+  const MockCamera = Object.assign(jest.fn(() => null), {
+    getCameraPermissionStatus: jest.fn().mockReturnValue('not-determined'),
+    requestCameraPermission: jest.fn().mockResolvedValue('granted'),
+  });
   return {
     Camera: MockCamera,
     useCameraDevice: jest.fn().mockReturnValue({ id: 'back', position: 'back' }),
